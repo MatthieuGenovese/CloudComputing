@@ -1,6 +1,6 @@
 ### 1. Lancer le projet
 
-Ouvrez un shell google SDK, et exécutez les commandes :
+Ouvrez un shell google SDK, et exécutez les commandes :  
 -gcloud config set project sacc-liechtensteger-182811  
 -gcloud app create  
 -gcloud app deploy  
