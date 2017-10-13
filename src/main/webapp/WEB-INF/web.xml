@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+  version="2.5">
+  <servlet>
+    <servlet-name>hello</servlet-name>
+    <servlet-class>helloworld.HelloServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>articles</servlet-name>
+    <servlet-class>helloworld.ArticlesService</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>queue</servlet-name>
+    <servlet-class>helloworld.ArticleQueue</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>hello</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>queue</servlet-name>
+    <url-pattern>/articles</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>articles</servlet-name>
+    <url-pattern>/worker</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>push</servlet-name>
+    <servlet-class>helloworld.ArticleSerialise</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>push</servlet-name>
+    <url-pattern>/push</url-pattern>
+  </servlet-mapping>
+</web-app>
