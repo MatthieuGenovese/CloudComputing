@@ -14,16 +14,15 @@ Créez une configuration maven : appengine:update
  
  ![pdf architecture du projet](/image/SACC.pdf)
  
-Comme vous pouvez le voir dans ce shéma , le client effectue une requête sur notre service de demandes. Il précise le Nom ,et la durée de sa vidéo. Le service effectue une vérification sur la base de données et lui attribue des permissions sur le nombre de vidéo qu' il peut soumettre suivant son abonnement (GOLD , SILVER ,BRONZE).
+Comme vous pouvez le voir dans ce schéma, le client effectue une requête sur notre service de demandes. Il précise le nom, et la durée de sa vidéo. Le service effectue une vérification sur la base de données et lui attribue des permissions sur le nombre de vidéo qu'il peut soumettre suivant son abonnement (GOLD, SILVER, BRONZE).
+Si la demande est acceptée (s'il est sur la BD) alors on effectue une requête sur la queue Bronze ou nos deux queues Silver et Gold.
+Les tâches sont traitées par notre partie convertisseur puis un événement est envoyé au service qui s’occupe de l’envoi de mails pour notifier l’utilisateur.
 
-Si la demande est acceptée (si il est sur la BD ) alors on effectue une requête sur la queue Bronze ou nos deux queues Silver et Gold.
-Les tâches sont traitées par notre partie convertisseur puis un événement est envoyé au service qui s’occupe de l’envoie de mails pour notifier l’utilisateur.
-
-Choix de conception :
+ ## Choix de conception 
 
 Nous avons choisi de mettre 1 queue push pour les bronzes car la queue bronze repose sur le fait que tous les utilisateurs sont traités les uns après les autres, dans l’ordre de leur arrivée.
 
-Nous avons choisi de mettre 2 queues pull pour les silvers et golds. Ce choix  repose sur le fait qu'on est capable de choisir qu'elle est la requete qu'on souhaite réaliser pour chaque utilisateur. Nous avons choisi de mélanger les Silvers et Golds dans ces 2 queues afin d'utilisé un maximum les pull queues dans le cas ou il n'y a aucun Golds ou aucun Silver
+Nous avons choisi de mettre 2 queues pull pour les silvers et golds. Ce choix repose sur le fait qu'on est capable de choisir qu'elle que soit la requête , celui qu'on souhaite réaliser. Nous avons choisi de mélanger les Silver et Golds dans ces 2 queues afin d'utiliser un maximum les pulls queues dans le cas où il n'y a aucun Gold ou aucun Silver à un instant T.
 
 
  ## Elasticité
@@ -51,18 +50,16 @@ La difficulté se concentre davantage sur le code applicatif. « Il est possible
 </appengine-web-app>
  ```
  
- Dans cette exemple on peut voir qu'on a au minimum 5 server qui tournent et au maximum un scaling qui peut aller jusqu'a 10 server.
+ On considère que 60% sont des bronzes 30%s sont des silvers et 10 % sont des golds. Prenons le cas critique qui est 60 % des gens prennent 1 vidéo  , 30 % des gens prennent 3 vidéos en simultané et 10 % prennent 5 vidéos en simultané . Cela  nous fait une moyenne de 2 vidéos en simultané. Arbitrairement une vidéo fait 5 minutes, et comme en moyenne une conversion fait 1.8 fois plus que la durée de la vidéo source cela nous donne : 9 minutes. Pour ne pas faire attendre la personne il nous faut de manière générale 2 fois plus d'instence que de personne.
  
-On concidère que 60% sont des bronzes 30% sont des silvers et 10 % sont des golds. donc prenons le cas critique qui est 60 % des gens prennent 1 video 30 % des gens font 3 vidéo en simutané et 10 % mettent 5 vidéo en simutané : se qui nous fait une moyenne de 2 vidéo en simutané. Arbitrairement une vidéo fait 5 minutes , et comme en moyenne une conversion fait 1.8 fois plus que la durée de la vidéo source cela nous donne : 9 minutes. Pour ne pas faire attendre la personne il nous faut de manière général 2 fois plus d'intence que de personne.
-
-Nous avons choisi d'avoir 5 intences afain de pouvoir gérer les 5 requetes que peut faire le gold dans 5 serveur différent cela nous permet en autre avoir un temps de réponse minimum pour ce cas précis. Nous avons choisi de d'avoir un scaling qui peut doubler notre charge : 5 de plus , soit 10 instances au maximum.
+Nous avons choisi d'avoir 5 instences afin de pouvoir gérer les 5 requêtes que peut faire le gold dans 5 serveurs différents cela nous permet en outre avoir un temps de réponse minimum pour ce cas précis. Nous avons choisi d'avoir un scaling qui peut doubler notre charge  soit 10 instances au maximum.
 
  
  ## Calcule du coup
   
-Nous avons de base de 5 instances, qui nous coûtent au total 139$/mois. Lorsque trop d’utilisateur silver et gold  surchargent une instance, on scale et on ajoute une machine pour supporter la charge. On a un scaling qui peut au pire des cas peut doubler soit 278$/mois.
+Nous avons une base de 5 instances, qui nous coûtent au total 139$/mois. Lorsqu'un surplus d’utilisateur silver et gold surchargent une instance, on scale et on ajoute une machine pour supporter la charge. On a un scaling qui peut au pire des cas peut doubler soit 278$/mois.
 
-On concidère qu'au minimum nous avons 50 utilisateurs , on souhaite etre rentable à partir de ce nombre minimum estimé donc cela nous donne : 4.99$/mois pour les bronzes , 9.99$/mois pour les silvers , 14.99$/mois pour les golds.
+On considère qu'au minimum nous avons 50 utilisateurs, on souhaite être rentable à partir de ce nombre minimum estimé donc cela nous donne : 4.99$/mois pour les bronzes, 9.99$/mois pour les silvers, 14.99$/mois pour les golds
   
   
 
