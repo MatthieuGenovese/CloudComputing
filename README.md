@@ -1,3 +1,5 @@
+Author : Liechtensteger, Génovèse, Chennouf, Fezai
+
 ### 1. Lancer le projet
 
 Ouvrez un shell google SDK, et exécutez les commandes :  
