@@ -14,7 +14,18 @@ Créez une configuration maven : appengine:update
  
  ![pdf architecture du projet](/image/SACC.pdf)
  
- 
+Comme vous pouvez le voir dans ce shéma , le client effectue une requête sur notre service de demandes. Il précise le Nom ,et la durée de sa vidéo. Le service effectue une vérification sur la base de données et lui attribue des permissions sur le nombre de vidéo qu' il peut soumettre suivant son abonnement (GOLD , SILVER ,BRONZE).
+
+Si la demande est acceptée (si il est sur la BD ) alors on effectue une requête sur la queue Bronze ou nos deux queues Silver et Gold.
+Les tâches sont traitées par notre partie convertisseur puis un événement est envoyé au service qui s’occupe de l’envoie de mails pour notifier l’utilisateur.
+
+Choix de conception :
+
+Nous avons choisi de mettre 1 queue push pour les bronzes car la queue bronze repose sur le fait que tous les utilisateurs sont traités les uns après les autres, dans l’ordre de leur arrivée.
+
+Nous avons choisi de mettre 2 queues pull pour les silvers et golds. Ce choix  repose sur le fait qu'on est capable de choisir qu'elle est la requete qu'on souhaite réaliser pour chaque utilisateur. Nous avons choisi de mélanger les Silvers et Golds dans ces 2 queues afin d'utilisé un maximum les pull queues dans le cas ou il n'y a aucun Golds ou aucun Silver
+
+
  ## Elasticité
  
  Nous allons mettre en place une élasticité horizontale, par augmentation du nombre de serveurs . Cela ne pose généralement pas de problème pour les infrastructures Web.
@@ -42,6 +53,11 @@ La difficulté se concentre davantage sur le code applicatif. « Il est possible
  
  Dans cette exemple on peut voir qu'on a au minimum 5 server qui tournent et au maximum un scaling qui peut aller jusqu'a 10 server.
  
-  ## Calcule du coup
+On concidère que 60% sont des bronzes 30% sont des silvers et 10 % sont des golds. donc prenons le cas critique qui est 60 % des gens prennent 1 video 30 % des gens font 3 vidéo en simutané et 10 % mettent 5 vidéo en simutané : se qui nous fait une moyenne de 2 vidéo en simutané. Arbitrairement une vidéo fait 5 minutes , et comme en moyenne une conversion fait 1.8 fois plus que la durée de la vidéo source cela nous donne : 9 minutes. Pour ne pas faire attendre la personne il nous faut de manière général 2 fois plus d'intence que de personne.
+
+ 
+ ## Calcule du coup
   
-  Cela va dépendre du nombre de personne qu'on souhaite atteindre , prenons par exemple 100 bronze 50 silver et 25 gold et calculons le coup à partir de se cas utilisation.
+
+Nous avons de base de 5 instances, qui nous coûtent au total 139$/mois. 
+On a un scaling qui double en fonction du nombre de personne connecté 
