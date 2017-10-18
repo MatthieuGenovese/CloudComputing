@@ -22,7 +22,7 @@ Les tâches sont traitées par notre partie convertisseur puis un événement es
 
  ## Choix de conception 
 
-Nous avons choisi de mettre 1 queue push pour les bronzes car la queue bronze repose sur le fait que tous les utilisateurs sont traités les uns après les autres, dans l’ordre de leur arrivée.
+Nous avons choisi de mettre 1 queue push pour les bronzes car la queue push repose sur le fait que tous les utilisateurs sont traités les uns après les autres, dans l’ordre de leur arrivée.
 
 Nous avons choisi de mettre 2 queues pull pour les silvers et golds. Ce choix repose sur le fait qu'on est capable de choisir qu'elle que soit la requête , celui qu'on souhaite réaliser. Nous avons choisi de mélanger les Silver et Golds dans ces 2 queues afin d'utiliser un maximum les pulls queues dans le cas où il n'y a aucun Gold ou aucun Silver à un instant T.
 
@@ -31,7 +31,7 @@ Nous avons choisi de mettre 2 queues pull pour les silvers et golds. Ce choix re
  
  Nous allons mettre en place une élasticité horizontale, par augmentation du nombre de serveurs . Cela ne pose généralement pas de problème pour les infrastructures Web.
 
-La difficulté se concentre davantage sur le code applicatif. « Il est possible d'allouer un process Java à un thread que l’on peut exécuter sur un cœur virtuel, mais pour répartir vraiment l'exécution d'une application complète sur plusieurs serveurs virtuels, cela reste compliqué ». Heuresement google est notre ami et gère tout cela avec un code qui est mis à notre disposition : 
+La difficulté se concentre davantage sur le code applicatif. « Il est possible d'allouer un process Java à un thread que l’on peut exécuter sur un cœur virtuel, mais pour répartir vraiment l'exécution d'une application complète sur plusieurs serveurs virtuels, cela reste compliqué ». Heuresement google est notre ami et gère tout cela avec le code suivant : 
 
  ```xml
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
@@ -59,9 +59,9 @@ Nous avons choisi d'avoir 5 instances afin de pouvoir gérer les 5 requêtes que
  
  ## Calcul du coût
   
-Nous avons une base de 5 instances, qui nous coûtent au total 139$/mois. Lorsqu'un surplus d’utilisateur silver et gold surchargent une instance, on scale et on ajoute une machine pour supporter la charge. On a un scaling qui peut au pire des cas peut doubler soit 278$/mois.
+Nous avons une base de 5 instances, qui nous coûtent au total 139$/mois. Lorsqu'un surplus d’utilisateur silver et gold surchargent une instance, on scale et on ajoute une machine pour supporter la charge. On a un scaling qui peut au pire des cas doubler soit 278$/mois.
 
-On considère qu'au minimum nous avons 50 utilisateurs, on souhaite être rentable à partir de ce nombre minimum estimé donc cela nous donne : 4.99$/mois pour les bronzes, 9.99$/mois pour les silvers, 14.99$/mois pour les golds
+On considère qu'au minimum nous avons 50 utilisateurs, on souhaite être rentable à partir de ce nombre minimum estimé, donc cela nous donne : 4.99$/mois pour les bronzes, 9.99$/mois pour les silvers, 14.99$/mois pour les golds
   
   
 
