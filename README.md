@@ -12,6 +12,6 @@ Créez une configuration maven : appengine:update
 
  ## Architecture
  
- ![Google logo](/image/SACC.pdf "google logo")
+ ![Google logo](/image/SACC.pdf)
  
  
