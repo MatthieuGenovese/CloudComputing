@@ -29,7 +29,7 @@ Nous avons choisi de mettre 2 queues pull pour les silvers et golds. Ce choix re
  
  Nous allons mettre en place une élasticité horizontale, par augmentation du nombre de serveurs . Cela ne pose généralement pas de problème pour les infrastructures Web.
 
-La difficulté se concentre davantage sur le code applicatif. « Il est possible d'allouer un process Java à un thread que l’on peut exécuter sur un cœur virtuel, mais pour répartir vraiment l'exécution d'une application complète sur plusieurs serveurs virtuels, cela reste compliqué ». Heuresement google est notre amis et gère tous cela avec un code qui est mis à notre disposition : 
+La difficulté se concentre davantage sur le code applicatif. « Il est possible d'allouer un process Java à un thread que l’on peut exécuter sur un cœur virtuel, mais pour répartir vraiment l'exécution d'une application complète sur plusieurs serveurs virtuels, cela reste compliqué ». Heuresement google est notre ami et gère tout cela avec un code qui est mis à notre disposition : 
 
  ```xml
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
@@ -50,9 +50,9 @@ La difficulté se concentre davantage sur le code applicatif. « Il est possible
 </appengine-web-app>
  ```
  
- On considère que 60% sont des bronzes 30%s sont des silvers et 10 % sont des golds. Prenons le cas critique qui est 60 % des gens prennent 1 vidéo  , 30 % des gens prennent 3 vidéos en simultané et 10 % prennent 5 vidéos en simultané . Cela  nous fait une moyenne de 2 vidéos en simultané. Arbitrairement une vidéo fait 5 minutes, et comme en moyenne une conversion fait 1.8 fois plus que la durée de la vidéo source cela nous donne : 9 minutes. Pour ne pas faire attendre la personne il nous faut de manière générale 2 fois plus d'instence que de personne.
+ On considère que 60% sont des bronzes 30%s sont des silvers et 10 % sont des golds. Prenons le cas critique qui est 60 % des gens prennent 1 vidéo  , 30 % des gens prennent 3 vidéos en simultané et 10 % prennent 5 vidéos en simultané . Cela  nous fait une moyenne de 2 vidéos en simultané. Arbitrairement une vidéo fait 5 minutes, et comme en moyenne une conversion fait 1.8 fois plus que la durée de la vidéo source cela nous donne : 9 minutes. Pour ne pas faire attendre la personne il nous faut de manière générale 2 fois plus d'instances que de personne.
  
-Nous avons choisi d'avoir 5 instences afin de pouvoir gérer les 5 requêtes que peut faire le gold dans 5 serveurs différents cela nous permet en outre avoir un temps de réponse minimum pour ce cas précis. Nous avons choisi d'avoir un scaling qui peut doubler notre charge  soit 10 instances au maximum.
+Nous avons choisi d'avoir 5 instances afin de pouvoir gérer les 5 requêtes que peut faire le gold dans 5 serveurs différents cela nous permet en outre d'avoir un temps de réponse minimum pour ce cas précis. Nous avons choisi d'avoir un scaling qui peut doubler notre charge  soit 10 instances au maximum.
 
  
  ## Calcul du coût
