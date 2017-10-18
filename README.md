@@ -55,9 +55,16 @@ La difficulté se concentre davantage sur le code applicatif. « Il est possible
  
 On concidère que 60% sont des bronzes 30% sont des silvers et 10 % sont des golds. donc prenons le cas critique qui est 60 % des gens prennent 1 video 30 % des gens font 3 vidéo en simutané et 10 % mettent 5 vidéo en simutané : se qui nous fait une moyenne de 2 vidéo en simutané. Arbitrairement une vidéo fait 5 minutes , et comme en moyenne une conversion fait 1.8 fois plus que la durée de la vidéo source cela nous donne : 9 minutes. Pour ne pas faire attendre la personne il nous faut de manière général 2 fois plus d'intence que de personne.
 
+Nous avons choisi d'avoir 5 intences afain de pouvoir gérer les 5 requetes que peut faire le gold dans 5 serveur différent cela nous permet en autre avoir un temps de réponse minimum pour ce cas précis. Nous avons choisi de d'avoir un scaling qui peut doubler notre charge : 5 de plus , soit 10 instances au maximum.
+
  
  ## Calcule du coup
   
+Nous avons de base de 5 instances, qui nous coûtent au total 139$/mois. Lorsque trop d’utilisateur silver et gold  surchargent une instance, on scale et on ajoute une machine pour supporter la charge. On a un scaling qui peut au pire des cas peut doubler soit 278$/mois.
 
-Nous avons de base de 5 instances, qui nous coûtent au total 139$/mois. 
-On a un scaling qui double en fonction du nombre de personne connecté 
+On concidère qu'au minimum nous avons 50 utilisateurs , on souhaite etre rentable à partir de ce nombre minimum estimé donc cela nous donne : 4.99$/mois pour les bronzes , 9.99$/mois pour les silvers , 14.99$/mois pour les golds.
+  
+  
+
+
+
