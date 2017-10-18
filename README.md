@@ -55,7 +55,7 @@ La difficulté se concentre davantage sur le code applicatif. « Il est possible
 Nous avons choisi d'avoir 5 instences afin de pouvoir gérer les 5 requêtes que peut faire le gold dans 5 serveurs différents cela nous permet en outre avoir un temps de réponse minimum pour ce cas précis. Nous avons choisi d'avoir un scaling qui peut doubler notre charge  soit 10 instances au maximum.
 
  
- ## Calcule du coup
+ ## Calcul du coût
   
 Nous avons une base de 5 instances, qui nous coûtent au total 139$/mois. Lorsqu'un surplus d’utilisateur silver et gold surchargent une instance, on scale et on ajoute une machine pour supporter la charge. On a un scaling qui peut au pire des cas peut doubler soit 278$/mois.
 
