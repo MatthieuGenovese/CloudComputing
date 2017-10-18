@@ -31,7 +31,7 @@ La difficulté se concentre davantage sur le code applicatif. « Il est possible
   <automatic-scaling>
     <min-idle-instances>5</min-idle-instances>
     <!-- ‘automatic’ is the default value. -->
-    <max-idle-instances>automatic</max-idle-instances>
+    <max-idle-instances>10</max-idle-instances>
     <!-- ‘automatic’ is the default value. -->
     <min-pending-latency>30ms</min-pending-latency>
     <max-pending-latency>automatic</max-pending-latency>
@@ -39,6 +39,9 @@ La difficulté se concentre davantage sur le code applicatif. « Il est possible
   </automatic-scaling>
 </appengine-web-app>
  ```
+ 
+ Dans cette exemple on peut voir qu'on a au minimum 5 server qui tournent et au maximum un scaling qui peut aller jusqu'a 10 server.
+ 
   ## Calcule du coup
   
   Cela va dépendre du nombre de personne qu'on souhaite atteindre , prenons par exemple 100 bronze 50 silver et 25 gold et calculons le coup à partir de se cas utilisation.
