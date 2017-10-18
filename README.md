@@ -7,3 +7,9 @@ Ouvrez un shell google SDK, et exécutez les commandes :
 
 Puis dans votre ide :  
 Créez une configuration maven : appengine:update  
+
+
+
+ ## Architecture
+ 
+ 
