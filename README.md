@@ -22,8 +22,22 @@ Créez une configuration maven : appengine:update
 La difficulté se concentre davantage sur le code applicatif. « Il est possible d'allouer un process Java à un thread que l’on peut exécuter sur un cœur virtuel, mais pour répartir vraiment l'exécution d'une application complète sur plusieurs serveurs virtuels, cela reste compliqué ». Heuresement google est notre amis et gère tous cela avec un code qui est mis à notre disposition : 
 
 
-# mettre une partie du code que tu m'a montré sur skype matthieu et l'expliquer (je le mettrai moi meme se soir au pire et je l'expliquerai à moin quelqun d'autre soit chaud)
-
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+  <application>simple-app</application>
+  <module>default</module>
+  <version>uno</version>
+  <threadsafe>true</threadsafe>
+  <instance-class>F2</instance-class>
+  <automatic-scaling>
+    <min-idle-instances>5</min-idle-instances>
+    <!-- ‘automatic’ is the default value. -->
+    <max-idle-instances>automatic</max-idle-instances>
+    <!-- ‘automatic’ is the default value. -->
+    <min-pending-latency>30ms</min-pending-latency>
+    <max-pending-latency>automatic</max-pending-latency>
+    <max-concurrent-requests>50</max-concurrent-requests>
+  </automatic-scaling>
+</appengine-web-app>
 
   ## Calcule du coup
   
