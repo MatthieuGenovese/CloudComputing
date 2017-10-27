@@ -40,4 +40,13 @@ public class Article {
         this.nom = nom;
         this.quantite = quantite;
     }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "nom='" + nom + '\'' +
+                ", prix=" + prix +
+                ", quantite=" + quantite +
+                '}';
+    }
 }

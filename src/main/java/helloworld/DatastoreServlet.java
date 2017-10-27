@@ -2,8 +2,7 @@ package helloworld;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import org.json.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +28,10 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "datastore", value = "")
 public class DatastoreServlet extends HttpServlet {
 
+    Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
+    KeyFactory keyFactory = datastore.newKeyFactory().setKind("article");
+    IncompleteKey key = keyFactory.setKind("article").newKey();
+
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException,
             ServletException {
@@ -43,9 +46,7 @@ public class DatastoreServlet extends HttpServlet {
             userIp = userIp.substring(0, userIp.indexOf(".", userIp.indexOf(".") + 1)) + ".*.*";
         }
 
-        Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-        KeyFactory keyFactory = datastore.newKeyFactory().setKind("article");
-        IncompleteKey key = keyFactory.setKind("article").newKey();
+
 
         // Record a visit to the datastore, storing the IP and timestamp.
         FullEntity<IncompleteKey> curVisit = FullEntity.newBuilder(key)
@@ -76,17 +77,30 @@ public class DatastoreServlet extends HttpServlet {
         String line = null;
         try {
             BufferedReader reader = req.getReader();
-            while ((line = reader.readLine()) != null)
+            while ((line = reader.readLine()) != null) {
+//                out.print(line + " ok ");
                 jb.append(line);
+            }
         } catch (Exception e) { /*report an error*/ }
 
         try {
-            JSONObject json =  HTTP.toJSONObject(jb.toString());
-            Article a = new Article(json.getString("nom"), json.getInt("prix"), json.getInt("quantite"));
-            //PrintWriter out = resp.getWriter();
-            out.println(json.toString());
-        } catch (JSONException e) {
-            out.println(line);
+//            JSONObject json =  HTTP.toJSONObject(jb.toString());
+            JsonParser jparser = new JsonParser();
+            JsonElement obj = jparser.parse(jb.toString());
+            JsonObject jsontest = obj.getAsJsonObject();
+//            out.print(jsontest.toString());
+//            gson.toJson(jb.toString());
+            Article a = new Article(jsontest.get("nom").getAsString(), Integer.valueOf(jsontest.get("prix").getAsString()), Integer.valueOf(jsontest.get("quantite").getAsString()));
+//            datastore
+            
+            FullEntity<Article> list = FullEntity.newBuilder();
+            Entity entity = new Entity();
+
+//            PrintWriter out = resp.getWriter();
+            out.println(a);
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println(e.toString());
         }
     }
 }
