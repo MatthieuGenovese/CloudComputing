@@ -2,12 +2,19 @@ package helloworld;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.datastore.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.json.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,8 +44,8 @@ public class DatastoreServlet extends HttpServlet {
         }
 
         Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-        KeyFactory keyFactory = datastore.newKeyFactory().setKind("visit");
-        IncompleteKey key = keyFactory.setKind("visit").newKey();
+        KeyFactory keyFactory = datastore.newKeyFactory().setKind("article");
+        IncompleteKey key = keyFactory.setKind("article").newKey();
 
         // Record a visit to the datastore, storing the IP and timestamp.
         FullEntity<IncompleteKey> curVisit = FullEntity.newBuilder(key)
@@ -54,9 +61,32 @@ public class DatastoreServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         out.print("Last 10 visits:\n");
         while (results.hasNext()) {
-            com.google.cloud.datastore.Entity entity = results.next();
+            Entity entity = results.next();
             out.format("Time: %s Addr: %s\n", entity.getTimestamp("timestamp"),
                     entity.getString("user_ip"));
+        }
+    }
+
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        final GsonBuilder builder = new GsonBuilder();
+        final Gson gson = builder.create();
+        PrintWriter out = resp.getWriter();
+        StringBuffer jb = new StringBuffer();
+        String line = null;
+        try {
+            BufferedReader reader = req.getReader();
+            while ((line = reader.readLine()) != null)
+                jb.append(line);
+        } catch (Exception e) { /*report an error*/ }
+
+        try {
+            JSONObject json =  HTTP.toJSONObject(jb.toString());
+            Article a = new Article(json.getString("nom"), json.getInt("prix"), json.getInt("quantite"));
+            //PrintWriter out = resp.getWriter();
+            out.println(json.toString());
+        } catch (JSONException e) {
+            out.println(line);
         }
     }
 }

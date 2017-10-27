@@ -5,11 +5,8 @@ package helloworld;
 public class Article {
 
     private String nom;
-
     private int prix;
-
     private int quantite;
-
     public Article(){
 
     }
