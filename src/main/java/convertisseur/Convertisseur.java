@@ -1,5 +1,6 @@
 package convertisseur;
 
+import com.google.appengine.repackaged.com.google.common.base.genfiles.ByteArray;
 import entities.Video;
 
 import java.io.*;
@@ -37,26 +38,16 @@ public class Convertisseur implements Runnable{
     }
 
     private void convert(){
-        File f = new File("/video" + vid.getOwner()+vid.getId() + ".mp4");
-        FileOutputStream fos;
+        ByteArray out = new ByteArray();
+        int totalSize = (vid.getLength() * 1048576) / 4;
+        for (int i = 0; i < totalSize; i++) {
+                out.add((byte)0);
+        }
+        double generatedLong = (Math.random() * (2.5 - 1.8)) * 1.8;
         try {
-            fos = new FileOutputStream(f);
-            int totalSize = (Integer.valueOf(vid.getContent().toString()) * 1048576) / 4;
-            for(int i = 0; i <totalSize; i++){
-                try {
-                    fos.write(0);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            double generatedLong = (Math.random() * (2.5 - 1.8)) * 1.8;
-            try {
-                Thread.sleep((int) (generatedLong * 1000));
-                status = true;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
+            Thread.sleep((int) (generatedLong * 1000));
+            status = true;
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
