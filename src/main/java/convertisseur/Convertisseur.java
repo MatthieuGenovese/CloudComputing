@@ -2,14 +2,17 @@ package convertisseur;
 
 import com.google.appengine.repackaged.com.google.common.base.genfiles.ByteArray;
 import entities.Video;
+import helloworld.QuickstartSample;
 
 import java.io.*;
+import java.nio.ByteBuffer;
 
 /**
  * Created by Matthieu on 03/11/2017.
  */
 public class Convertisseur implements Runnable{
     private boolean status;
+    private QuickstartSample storage;
     private Video vid;
 
     public boolean isStatus() {
@@ -29,7 +32,8 @@ public class Convertisseur implements Runnable{
     }
 
     public Convertisseur(){
-        status = false;
+        storage = new QuickstartSample();
+        status = true;
     }
 
     public void run(){
@@ -38,14 +42,16 @@ public class Convertisseur implements Runnable{
     }
 
     private void convert(){
-        ByteArray out = new ByteArray();
         int totalSize = (vid.getLength() * 1048576) / 4;
+
+        byte[] out = new byte[totalSize];
         for (int i = 0; i < totalSize; i++) {
-                out.add((byte)0);
+              out[i] = (byte) i;
         }
         double generatedLong = (Math.random() * (2.5 - 1.8)) * 1.8;
         try {
             Thread.sleep((int) (generatedLong * 1000));
+            storage.writeToStorage(vid.getId()+vid.getOwner(),out);
             status = true;
         } catch (InterruptedException e) {
             e.printStackTrace();

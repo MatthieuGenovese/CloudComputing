@@ -6,6 +6,8 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.cloud.datastore.*;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.*;
+import convertisseur.Convertisseur;
+import entities.Video;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
  * Created by Matthieu on 03/11/2017.
  */
 public class AuthentificationServlet extends HttpServlet {
+    Convertisseur conv = new Convertisseur();
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         /*for(int i = 0; i < 5; i++) {
@@ -60,6 +63,10 @@ public class AuthentificationServlet extends HttpServlet {
                 com.google.cloud.datastore.Entity entity = results.next();
                 if(entity.getString("username").equalsIgnoreCase(username)){
                     out.print("utilisateur " + username + "authentifié !");
+                    if(conv.isStatus()){
+                        conv.setVid(new Video(username, Integer.valueOf(videoLength), "152"));
+                        conv.run();
+                    }
                     found = true;
                 }
             }
