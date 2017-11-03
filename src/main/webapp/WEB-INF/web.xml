@@ -19,6 +19,10 @@
     <servlet-name>datastore</servlet-name>
     <servlet-class>helloworld.DatastoreServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>storage</servlet-name>
+    <servlet-class>helloworld.QuickstartSample</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>hello</servlet-name>
@@ -43,5 +47,9 @@
   <servlet-mapping>
     <servlet-name>push</servlet-name>
     <url-pattern>/push</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>storage</servlet-name>
+    <url-pattern>/storage</url-pattern>
   </servlet-mapping>
 </web-app>
