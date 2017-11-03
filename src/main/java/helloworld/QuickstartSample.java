@@ -31,18 +31,18 @@ public class QuickstartSample extends HttpServlet{
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        writeToStorage("okok.txt", "yeeeep!".getBytes());
+    }
+
+    public void writeToStorage(String filename, byte[] file){
         // Instantiates a client
         Storage storage = StorageOptions.getDefaultInstance().getService();
-
-        // The name for the new bucket
+        // The name of the bucket
         String bucketName = "sacc-liechtensteger-182811.appspot.com";  // "my-new-bucket";
 
-        // Creates the new bucket
-        Bucket bucket = storage.create(BucketInfo.of(bucketName));
+        Bucket bucket = storage.get(bucketName);
 
-        System.out.printf("Bucket %s created.%n", bucket.getName());
-
-        InputStream content = new ByteArrayInputStream("Hello, World!".getBytes(UTF_8));
-        com.google.cloud.storage.Blob blob = bucket.create("sacc-liechtensteger-182811.appspot.com", content, "text/plain");
+//        InputStream content = new ByteArrayInputStream(jb.toString().getBytes());
+        com.google.cloud.storage.Blob blob = bucket.create(filename, file, "text/plain");
     }
 }
