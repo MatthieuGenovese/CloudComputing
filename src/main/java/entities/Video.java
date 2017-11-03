@@ -5,7 +5,7 @@ package entities;
  */
 public class Video {
     private String owner;
-    private Object content;
+    private int length;
     private String id;
 
     public String getOwner() {
@@ -16,18 +16,27 @@ public class Video {
         this.owner = owner;
     }
 
-    public Object getContent() {
-        return content;
+    public int getLength() {
+        return length;
     }
 
-    public void setContent(Object content) {
-        this.content = content;
+    public void setLength(int content) {
+        this.length = content;
     }
 
-    public Video(String owner, Object content, String id){
-        this.owner = owner;
-        this.content = content;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public Video(String owner, int length, String id){
+        this.owner = owner;
+        this.length = length;
+        this.id = id;
+
 
     }
 }
