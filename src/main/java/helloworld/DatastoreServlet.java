@@ -45,8 +45,6 @@ public class DatastoreServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        final GsonBuilder builder = new GsonBuilder();
-        final Gson gson = builder.create();
         PrintWriter out = resp.getWriter();
         StringBuffer jb = new StringBuffer();
         String line = null;
@@ -54,21 +52,15 @@ public class DatastoreServlet extends HttpServlet {
         try {
             BufferedReader reader = req.getReader();
             while ((line = reader.readLine()) != null) {
-//                out.print(line + " ok ");
                 jb.append(line);
             }
         } catch (Exception e) { /*report an error*/ }
 
         try {
-//            JSONObject json =  HTTP.toJSONObject(jb.toString());
             JsonParser jparser = new JsonParser();
             JsonElement obj = jparser.parse(jb.toString());
             JsonObject jsontest = obj.getAsJsonObject();
-//            out.print(jsontest.toString());
-//            gson.toJson(jb.toString());
             Article a = new Article(jsontest.get("nom").getAsString(), Integer.valueOf(jsontest.get("prix").getAsString()), Integer.valueOf(jsontest.get("quantite").getAsString()));
-//            datastore
-
             Entity entity = new Entity("article");
             entity.setProperty("nom", a.getNom());
             entity.setProperty("prix", a.getPrix());
