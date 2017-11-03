@@ -6,6 +6,7 @@ package entities;
 public class Video {
     private String owner;
     private Object content;
+    private String id;
 
     public String getOwner() {
         return owner;
@@ -23,9 +24,10 @@ public class Video {
         this.content = content;
     }
 
-    public Video(String owner, Object content){
+    public Video(String owner, Object content, String id){
         this.owner = owner;
         this.content = content;
+        this.id = id;
 
     }
 }

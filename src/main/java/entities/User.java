@@ -8,12 +8,14 @@ import java.util.ArrayList;
 public class User {
     private String username;
     private String accountLevel;
+    private String email;
     private ArrayList<String> currentVideos;
 
-    public User(String username, String accountLevel){
+    public User(String username, String accountLevel, String email){
         this.username = username;
         this.accountLevel = accountLevel;
         currentVideos = new ArrayList<>();
+        this.email = email;
     }
 
     public String getUsername() {
