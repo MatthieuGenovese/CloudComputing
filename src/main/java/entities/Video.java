@@ -24,10 +24,19 @@ public class Video {
         this.content = content;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Video(String owner, Object content, String id){
         this.owner = owner;
         this.content = content;
         this.id = id;
+
 
     }
 }
