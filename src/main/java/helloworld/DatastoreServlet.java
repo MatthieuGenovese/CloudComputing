@@ -57,7 +57,7 @@ public class DatastoreServlet extends HttpServlet {
         } catch (Exception e) { /*report an error*/ }
 
         try {
-            JsonParser jparser = new JsonParser();
+           /* JsonParser jparser = new JsonParser();
             JsonElement obj = jparser.parse(jb.toString());
             JsonObject jsontest = obj.getAsJsonObject();
             Article a = new Article(jsontest.get("nom").getAsString(), Integer.valueOf(jsontest.get("prix").getAsString()), Integer.valueOf(jsontest.get("quantite").getAsString()));
@@ -69,7 +69,7 @@ public class DatastoreServlet extends HttpServlet {
             datastore.put(entity);
 
 //            PrintWriter out = resp.getWriter();
-            out.println(a);
+            out.println(a);*/
         } catch (Exception e) {
             e.printStackTrace();
             out.println(e.toString());

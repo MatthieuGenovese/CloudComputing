@@ -43,6 +43,6 @@ public class QuickstartSample extends HttpServlet{
         Bucket bucket = storage.get(bucketName);
 
 //        InputStream content = new ByteArrayInputStream(jb.toString().getBytes());
-        com.google.cloud.storage.Blob blob = bucket.create(filename, file, "text/plain");
+        bucket.create(filename, file, "text/plain");
     }
 }
