@@ -38,6 +38,10 @@ public class User {
         return currentVideos;
     }
 
+    public void setCurrentVideos(ArrayList<String> list){
+        this.currentVideos = list;
+    }
+
     public void addProcessingVideos(String id) {
         currentVideos.add(id);
     }

@@ -1,5 +1,7 @@
 package helloworld;
 
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.gson.*;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -7,7 +9,9 @@ import com.google.cloud.datastore.*;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.*;
 import convertisseur.Convertisseur;
+import entities.User;
 import entities.Video;
+import stockage.UserManager;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,12 +21,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Matthieu on 03/11/2017.
  */
 public class AuthentificationServlet extends HttpServlet {
     Convertisseur conv = new Convertisseur();
+    UserManager userManager = new UserManager();
+    Queue q = QueueFactory.getQueue("pull-queue");
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         /*for(int i = 0; i < 5; i++) {
@@ -30,6 +37,10 @@ public class AuthentificationServlet extends HttpServlet {
             entity.setProperty("username", "toto" + String.valueOf(i));
             entity.setProperty("accountlevel", "gold");
             entity.setProperty("email", "totodu36" + String.valueOf(i)+ "@tamere.fr");
+            ArrayList<String> test = new ArrayList<>();
+            test.add("toto");
+            test.add("toto2");
+            entity.setProperty("currentVid", test);
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             datastore.put(entity);
         }*/
@@ -38,9 +49,6 @@ public class AuthentificationServlet extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
         StringBuffer jb = new StringBuffer();
-        Datastore datastore = DatastoreOptions.getDefaultInstance().getService();
-        KeyFactory keyFactory = datastore.newKeyFactory().setKind("user");
-        IncompleteKey key = keyFactory.setKind("user").newKey();
         String line = null;
         try {
             BufferedReader reader = req.getReader();
@@ -57,15 +65,12 @@ public class AuthentificationServlet extends HttpServlet {
             String videoname = jsontest.get("video").getAsString();
             String videoLength = jsontest.get("length").getAsString();
             boolean found = false;
-            EntityQuery query = Query.newEntityQueryBuilder().setKind("user").build();
-            QueryResults<com.google.cloud.datastore.Entity> results = datastore.run(query);
-            resp.setContentType("text/plain");
-            while (results.hasNext()) {
-                com.google.cloud.datastore.Entity entity = results.next();
-                if(entity.getString("username").equalsIgnoreCase(username)){
-                    out.print("utilisateur " + username + "authentifié !");
-                    if(conv.isStatus()){
-                        conv.setVid(new Video(username,videoname, Integer.valueOf(videoLength), "152"));
+            User client = userManager.getUser(username);
+            if(client != null){
+                out.print("utilisateur " + username + "authentifié !");
+                if(checkStatus(client, videoLength)) {
+                    if (conv.isStatus()) {
+                        conv.setVid(new Video(username, videoname, Integer.valueOf(videoLength), "152"));
                         conv.run();
                     }
                     found = true;
@@ -78,5 +83,30 @@ public class AuthentificationServlet extends HttpServlet {
             e.printStackTrace();
             out.println(e.toString());
         }
+    }
+
+    private boolean checkStatus(User user, String videoLength){
+        if(user.getAccountLevel().equalsIgnoreCase("bronze") && Integer.valueOf(videoLength) > 60 && user.getCurrentVideos().size() == 0){
+            return false;
+        }
+        else{
+            if(user.getAccountLevel().equalsIgnoreCase("silver")){
+                if(user.getCurrentVideos().size() < 3) {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else if(user.getAccountLevel().equalsIgnoreCase("gold")){
+                if(user.getCurrentVideos().size() < 5) {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 }
