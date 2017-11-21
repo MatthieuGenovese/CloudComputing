@@ -2,6 +2,10 @@
 <queue-entries>
     <queue>
         <name>pull-queue</name>
-        <mode>pull</mode>
+        <rate>20/s</rate>
+    </queue>
+    <queue>
+        <name>bronze</name>
+        <rate>1/m</rate>
     </queue>
 </queue-entries>

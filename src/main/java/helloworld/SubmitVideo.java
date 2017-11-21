@@ -2,6 +2,7 @@ package helloworld;
 
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.gson.*;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -26,10 +27,9 @@ import java.util.List;
 /**
  * Created by Matthieu on 03/11/2017.
  */
-public class AuthentificationServlet extends HttpServlet {
+public class SubmitVideo extends HttpServlet {
     Convertisseur conv = new Convertisseur();
     UserManager userManager = new UserManager();
-    Queue q = QueueFactory.getQueue("pull-queue");
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         /*for(int i = 0; i < 5; i++) {
@@ -69,10 +69,15 @@ public class AuthentificationServlet extends HttpServlet {
             if(client != null){
                 out.print("utilisateur " + username + "authentifié !");
                 if(checkStatus(client, videoLength)) {
-                    if (conv.isStatus()) {
+                    Queue queue = QueueFactory.getQueue("pull-queue");
+                    queue.add(TaskOptions.Builder.withUrl("/uploadVideo")
+                            .param("videolength", videoLength)
+                            .param("username", username)
+                            .param("id", videoname));
+                    /*if (conv.isStatus()) {
                         conv.setVid(new Video(username, videoname, Integer.valueOf(videoLength), "152"));
                         conv.run();
-                    }
+                    }*/
                     found = true;
                 }
             }

@@ -51,7 +51,7 @@ public class Convertisseur implements Runnable{
         double generatedLong = (Math.random() * (2.5 - 1.8)) * 1.8;
         try {
             Thread.sleep((int) (generatedLong * vid.getLength() *  1000));
-            storage.writeToStorage(vid.getId()+vid.getName(),out);
+            storage.writeToStorage(vid.getOwner()+vid.getName(),out);
             status = true;
         } catch (InterruptedException e) {
             e.printStackTrace();

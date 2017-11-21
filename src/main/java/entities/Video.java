@@ -7,7 +7,6 @@ public class Video {
     private String owner;
     private String name;
     private int length;
-    private String id;
 
     public String getOwner() {
         return owner;
@@ -25,14 +24,6 @@ public class Video {
         this.length = content;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -41,10 +32,9 @@ public class Video {
         this.name = name;
     }
 
-    public Video(String owner, String name, int length, String id){
+    public Video(String owner, String name, int length){
         this.owner = owner;
         this.length = length;
-        this.id = id;
         this.name = name;
 
 

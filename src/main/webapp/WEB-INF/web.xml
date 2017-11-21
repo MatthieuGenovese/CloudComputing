@@ -12,12 +12,20 @@
     <servlet-class>helloworld.QuickstartSample</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>videoworker</servlet-name>
+    <servlet-class>workers.VideoWorker</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>loginAPI</servlet-name>
-    <servlet-class>helloworld.AuthentificationServlet</servlet-class>
+    <servlet-class>helloworld.SubmitVideo</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>queue</servlet-name>
     <url-pattern>/articles</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>videoworker</servlet-name>
+    <url-pattern>/videoupload</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>loginAPI</servlet-name>
