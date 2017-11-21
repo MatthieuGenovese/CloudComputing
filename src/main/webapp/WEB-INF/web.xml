@@ -8,10 +8,6 @@
     <servlet-class>helloworld.ArticleQueue</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>datastore</servlet-name>
-    <servlet-class>helloworld.DatastoreServlet</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>storage</servlet-name>
     <servlet-class>helloworld.QuickstartSample</servlet-class>
   </servlet>
@@ -19,11 +15,6 @@
     <servlet-name>loginAPI</servlet-name>
     <servlet-class>helloworld.AuthentificationServlet</servlet-class>
   </servlet>
-
-  <servlet-mapping>
-    <servlet-name>datastore</servlet-name>
-    <url-pattern>/datastore</url-pattern>
-  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>queue</servlet-name>
     <url-pattern>/articles</url-pattern>

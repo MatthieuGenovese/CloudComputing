@@ -5,8 +5,6 @@ package stockage;
  */
 import com.google.cloud.datastore.*;
 import entities.User;
-import entities.Video;
-
 import java.util.ArrayList;
 import java.util.List;
 
