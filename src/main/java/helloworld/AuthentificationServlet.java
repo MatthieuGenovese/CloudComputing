@@ -54,6 +54,7 @@ public class AuthentificationServlet extends HttpServlet {
             JsonElement obj = jparser.parse(jb.toString());
             JsonObject jsontest = obj.getAsJsonObject();
             String username = jsontest.get("username").getAsString();
+            String videoname = jsontest.get("video").getAsString();
             String videoLength = jsontest.get("length").getAsString();
             boolean found = false;
             EntityQuery query = Query.newEntityQueryBuilder().setKind("user").build();
@@ -64,7 +65,7 @@ public class AuthentificationServlet extends HttpServlet {
                 if(entity.getString("username").equalsIgnoreCase(username)){
                     out.print("utilisateur " + username + "authentifié !");
                     if(conv.isStatus()){
-                        conv.setVid(new Video(username, Integer.valueOf(videoLength), "152"));
+                        conv.setVid(new Video(username,videoname, Integer.valueOf(videoLength), "152"));
                         conv.run();
                     }
                     found = true;

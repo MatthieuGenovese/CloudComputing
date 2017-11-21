@@ -5,6 +5,7 @@ package entities;
  */
 public class Video {
     private String owner;
+    private String name;
     private int length;
     private String id;
 
@@ -32,10 +33,20 @@ public class Video {
         this.id = id;
     }
 
-    public Video(String owner, int length, String id){
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Video(String owner, String name, int length, String id){
         this.owner = owner;
         this.length = length;
         this.id = id;
+        this.name = name;
+
 
 
     }
