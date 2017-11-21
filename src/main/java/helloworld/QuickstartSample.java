@@ -4,34 +4,34 @@ package helloworld;
  * Created by Michael on 03/11/2017.
  */
 // Imports the Google Cloud client library
-import com.google.cloud.datastore.Blob;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.BucketInfo;
+import com.google.cloud.ReadChannel;
+import com.google.cloud.storage.*;
 import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
-import com.google.gson.*;
 
 import java.io.*;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.WritableByteChannel;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class QuickstartSample extends HttpServlet{
 
+    private static Storage storage = null;
+
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        writeToStorage("okok.txt", "yeeeep!".getBytes());
+        byte[] b = new byte[256];
+        String link = uploadFile("testStorage", b, "sacc-liechtensteger-182811.appspot.com");
+        PrintWriter out = resp.getWriter();
+        out.println(link);
     }
 
     public void writeToStorage(String filename, byte[] file){
@@ -42,7 +42,18 @@ public class QuickstartSample extends HttpServlet{
 
         Bucket bucket = storage.get(bucketName);
 
-//        InputStream content = new ByteArrayInputStream(jb.toString().getBytes());
-        com.google.cloud.storage.Blob blob = bucket.create(filename, file, "text/plain");
+        bucket.create(filename, file, "text/plain");
+    }
+
+    public String uploadFile(String fileName, byte[] file, final String bucketName) throws IOException {
+        storage = StorageOptions.getDefaultInstance().getService();
+        BlobInfo blobInfo =
+                storage.create(
+                        BlobInfo
+                                .newBuilder(bucketName, fileName)
+                                .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
+                                .build(),
+                        file);
+        return blobInfo.getMediaLink();
     }
 }
