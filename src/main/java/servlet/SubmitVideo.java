@@ -1,4 +1,4 @@
-package helloworld;
+package servlet;
 
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
@@ -32,18 +32,15 @@ public class SubmitVideo extends HttpServlet {
     UserManager userManager = new UserManager();
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        /*for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 5; i++) {
             Entity entity = new Entity("user");
             entity.setProperty("username", "toto" + String.valueOf(i));
             entity.setProperty("accountlevel", "gold");
             entity.setProperty("email", "totodu36" + String.valueOf(i)+ "@tamere.fr");
-            ArrayList<String> test = new ArrayList<>();
-            test.add("toto");
-            test.add("toto2");
-            entity.setProperty("currentVid", test);
+            entity.setProperty("currentVid", 0);
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             datastore.put(entity);
-        }*/
+        }
     }
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -64,13 +61,14 @@ public class SubmitVideo extends HttpServlet {
             String username = jsontest.get("username").getAsString();
             String videoname = jsontest.get("video").getAsString();
             String videoLength = jsontest.get("length").getAsString();
+            String email = jsontest.get("email").getAsString();
             boolean found = false;
             User client = userManager.getUser(username);
             if(client != null){
                 out.print("utilisateur " + username + "authentifié !");
                 if(checkStatus(client, videoLength)) {
                     Queue queue = QueueFactory.getQueue("pull-queue");
-                    queue.add(TaskOptions.Builder.withUrl("/uploadVideo")
+                    queue.add(TaskOptions.Builder.withUrl("/videoupload")
                             .param("videolength", videoLength)
                             .param("username", username)
                             .param("id", videoname));
@@ -91,12 +89,12 @@ public class SubmitVideo extends HttpServlet {
     }
 
     private boolean checkStatus(User user, String videoLength){
-        if(user.getAccountLevel().equalsIgnoreCase("bronze") && Integer.valueOf(videoLength) > 60 && user.getCurrentVideos().size() == 0){
-            return false;
+        if(user.getAccountLevel().equalsIgnoreCase("bronze") && Integer.valueOf(videoLength) <= 60 && user.getCurrentVideos() == 0){
+            return true;
         }
         else{
             if(user.getAccountLevel().equalsIgnoreCase("silver")){
-                if(user.getCurrentVideos().size() < 3) {
+                if(user.getCurrentVideos() < 3) {
                     return true;
                 }
                 else{
@@ -104,7 +102,7 @@ public class SubmitVideo extends HttpServlet {
                 }
             }
             else if(user.getAccountLevel().equalsIgnoreCase("gold")){
-                if(user.getCurrentVideos().size() < 5) {
+                if(user.getCurrentVideos() < 5) {
                     return true;
                 }
                 else{

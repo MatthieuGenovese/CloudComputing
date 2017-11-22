@@ -9,12 +9,12 @@ public class User {
     private String username;
     private String accountLevel;
     private String email;
-    private ArrayList<String> currentVideos;
+    private int currentVideos;
 
     public User(String username, String accountLevel, String email){
         this.username = username;
         this.accountLevel = accountLevel;
-        currentVideos = new ArrayList<>();
+        currentVideos = 0;
         this.email = email;
     }
 
@@ -34,15 +34,20 @@ public class User {
         this.accountLevel = accountLevel;
     }
 
-    public ArrayList<String> getCurrentVideos() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getCurrentVideos() {
         return currentVideos;
     }
 
-    public void setCurrentVideos(ArrayList<String> list){
+    public void setCurrentVideos(int list){
         this.currentVideos = list;
     }
 
-    public void addProcessingVideos(String id) {
-        currentVideos.add(id);
-    }
 }

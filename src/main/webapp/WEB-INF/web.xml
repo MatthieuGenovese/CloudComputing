@@ -17,7 +17,7 @@
   </servlet>
   <servlet>
     <servlet-name>loginAPI</servlet-name>
-    <servlet-class>helloworld.SubmitVideo</servlet-class>
+    <servlet-class>servlet.SubmitVideo</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>queue</servlet-name>

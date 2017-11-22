@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserManager {
-
-    private static UserManager instance;
     private final Datastore datastore;
     private final KeyFactory keyFactory;
 
@@ -30,21 +28,32 @@ public class UserManager {
             if(entity.getString("username").equalsIgnoreCase(username)){
                 String level = entity.getString("accountlevel");
                 String email = entity.getString("email");
-                List<Value<?>> currentVid = entity.getList("currentVid");
+                String currentVid = String.valueOf(entity.getLong("currentVid"));
                 res = new User(username, level, email);
-                res.setCurrentVideos(convertList(currentVid));
+                res.setCurrentVideos(Integer.valueOf(currentVid));
             }
 
         }
         return res;
     }
 
-    private ArrayList<String> convertList(List<Value<?>> currentVid){
-        ArrayList<String> res = new ArrayList<>();
-        for(Value<?> v : currentVid){
-            res.add(v.toString());
+    public void updateUser(User user){
+        EntityQuery query =
+                Query.newEntityQueryBuilder()
+                        .setKind("user")
+                        .setFilter(StructuredQuery.PropertyFilter.eq("username", user.getUsername()))
+                        .build();
+        QueryResults<Entity> results = datastore.run(query);
+        if (!results.hasNext()){
+            return;
         }
-        return res;
+        Entity.Builder builder = Entity.newBuilder(results.next());
+        builder.set("username",user.getUsername());
+        builder.set("accountlevel", user.getAccountLevel());
+        builder.set("email", user.getEmail());
+        builder.set("currentVid", user.getCurrentVideos());
+        Entity entity = builder.build();
+        datastore.update(entity);
     }
 
     public void createUser(String username, String accountLevel, String email) {
@@ -53,6 +62,7 @@ public class UserManager {
                 .set("username", username)
                 .set("email", email)
                 .set("accountlevel", accountLevel)
+                .set("currentVid", new ArrayList<Value<?>>())
                 .build();
         datastore.add(user);
     }
