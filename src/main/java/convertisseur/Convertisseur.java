@@ -42,7 +42,7 @@ public class Convertisseur implements Runnable{
     }
 
     private void convert(){
-        int totalSize = (vid.getLength() * 1048576) / 4;
+        int totalSize = (Integer.valueOf(vid.getLength()) * 1048576) / 4;
 
         byte[] out = new byte[totalSize];
         for (int i = 0; i < totalSize; i++) {
@@ -50,7 +50,7 @@ public class Convertisseur implements Runnable{
         }
         double generatedLong = (Math.random() * (2.5 - 1.8)) * 1.8;
         try {
-            Thread.sleep((int) (generatedLong * vid.getLength() *  1000));
+            Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             storage.writeToStorage(vid.getOwner()+vid.getName(),out);
             status = true;
         } catch (InterruptedException e) {

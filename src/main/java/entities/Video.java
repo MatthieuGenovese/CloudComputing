@@ -6,7 +6,7 @@ package entities;
 public class Video {
     private String owner;
     private String name;
-    private int length;
+    private String length;
 
     public String getOwner() {
         return owner;
@@ -16,11 +16,11 @@ public class Video {
         this.owner = owner;
     }
 
-    public int getLength() {
+    public String getLength() {
         return length;
     }
 
-    public void setLength(int content) {
+    public void setLength(String content) {
         this.length = content;
     }
 
@@ -32,7 +32,7 @@ public class Video {
         this.name = name;
     }
 
-    public Video(String owner, String name, int length){
+    public Video(String owner, String name, String length){
         this.owner = owner;
         this.length = length;
         this.name = name;
