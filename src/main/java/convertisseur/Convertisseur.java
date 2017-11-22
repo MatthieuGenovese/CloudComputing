@@ -1,8 +1,10 @@
 package convertisseur;
 
 import com.google.appengine.repackaged.com.google.common.base.genfiles.ByteArray;
+import entities.User;
 import entities.Video;
 import helloworld.QuickstartSample;
+import stockage.UserManager;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -13,6 +15,17 @@ import java.nio.ByteBuffer;
 public class Convertisseur implements Runnable{
     private boolean status;
     private QuickstartSample storage;
+    private UserManager userManager;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     private Video vid;
 
     public boolean isStatus() {
@@ -34,6 +47,7 @@ public class Convertisseur implements Runnable{
     public Convertisseur(){
         storage = new QuickstartSample();
         status = true;
+        userManager = new UserManager();
     }
 
     public void run(){
@@ -53,6 +67,8 @@ public class Convertisseur implements Runnable{
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             storage.writeToStorage(vid.getOwner()+vid.getName(),out);
             status = true;
+            user.setCurrentVideos(user.getCurrentVideos()-1);
+            userManager.updateUser(user);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

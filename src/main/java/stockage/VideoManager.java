@@ -29,7 +29,7 @@ public class VideoManager {
             if(entity.getString("username").equalsIgnoreCase(username) && entity.getString("videoname").equalsIgnoreCase(videoname)){
                 String owner = entity.getString("username");
                 String name = entity.getString("videoname");
-                String videolength = String.valueOf(entity.getLong("videolength"));
+                String videolength = entity.getString("videolength");
                 res = new Video(owner, name, videolength);
             }
 
@@ -48,10 +48,9 @@ public class VideoManager {
             if(entity.getString("username").equalsIgnoreCase(username)){
                 String owner = entity.getString("username");
                 String name = entity.getString("videoname");
-                String videolength = String.valueOf(entity.getLong("videolength"));
+                String videolength = entity.getString("videolength");
                 res.add(new Video(owner, name, videolength));
             }
-
         }
         return res;
     }

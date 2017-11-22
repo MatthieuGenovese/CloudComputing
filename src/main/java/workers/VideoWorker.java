@@ -34,6 +34,7 @@ public class VideoWorker extends HttpServlet {
         }
         Convertisseur convert = new Convertisseur();
         convert.setVid(new Video(username,videoName,videoLength));
+        convert.setUser(u);
         convert.run();
     }
 }

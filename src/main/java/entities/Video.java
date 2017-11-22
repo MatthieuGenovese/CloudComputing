@@ -32,12 +32,17 @@ public class Video {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "owner='" + owner + '\'' +
+                ", name='" + name + '\'' +
+                ", length='" + length + '\'';
+    }
+
     public Video(String owner, String name, String length){
         this.owner = owner;
         this.length = length;
         this.name = name;
-
-
 
     }
 }

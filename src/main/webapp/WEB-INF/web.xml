@@ -16,12 +16,20 @@
     <servlet-class>workers.VideoWorker</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>videostatus</servlet-name>
+    <servlet-class>servlet.VideoStatus</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>loginAPI</servlet-name>
     <servlet-class>servlet.SubmitVideo</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>queue</servlet-name>
     <url-pattern>/articles</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>videostatus</servlet-name>
+    <url-pattern>/status</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>videoworker</servlet-name>

@@ -66,17 +66,13 @@ public class SubmitVideo extends HttpServlet {
             User client = userManager.getUser(username);
             if(client != null){
                 out.print("utilisateur " + username + "authentifié !");
+                found = true;
                 if(checkStatus(client, videoLength)) {
                     Queue queue = QueueFactory.getQueue("pull-queue");
                     queue.add(TaskOptions.Builder.withUrl("/videoupload")
                             .param("videolength", videoLength)
                             .param("username", username)
                             .param("id", videoname));
-                    /*if (conv.isStatus()) {
-                        conv.setVid(new Video(username, videoname, Integer.valueOf(videoLength), "152"));
-                        conv.run();
-                    }*/
-                    found = true;
                 }
             }
             if(!found){
