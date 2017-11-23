@@ -25,6 +25,11 @@ public class CloudStorage extends HttpServlet{
 
     private static Storage storage = null;
 
+    // [START init]
+    static {
+        storage = StorageOptions.getDefaultInstance().getService();
+    }
+
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         byte[] b = new byte[256];
@@ -49,7 +54,6 @@ public class CloudStorage extends HttpServlet{
         DateTime dt = DateTime.now(DateTimeZone.UTC);
         String dtString = dt.toString(dtf);
         fileName =fileName + dtString;
-        storage = StorageOptions.getDefaultInstance().getService();
         BlobInfo blobInfo =
                 storage.create(
                         BlobInfo
