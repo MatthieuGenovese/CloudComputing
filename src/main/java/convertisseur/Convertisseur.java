@@ -1,20 +1,16 @@
 package convertisseur;
 
-import com.google.appengine.repackaged.com.google.common.base.genfiles.ByteArray;
 import entities.User;
 import entities.Video;
-import helloworld.QuickstartSample;
+import stockage.CloudStorage;
 import stockage.UserManager;
-
-import java.io.*;
-import java.nio.ByteBuffer;
 
 /**
  * Created by Matthieu on 03/11/2017.
  */
 public class Convertisseur implements Runnable{
     private boolean status;
-    private QuickstartSample storage;
+    private CloudStorage storage;
     private UserManager userManager;
     private User user;
 
@@ -45,7 +41,7 @@ public class Convertisseur implements Runnable{
     }
 
     public Convertisseur(){
-        storage = new QuickstartSample();
+        storage = new CloudStorage();
         status = true;
         userManager = new UserManager();
     }

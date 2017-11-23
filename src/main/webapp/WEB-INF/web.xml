@@ -9,7 +9,7 @@
   </servlet>
   <servlet>
     <servlet-name>storage</servlet-name>
-    <servlet-class>helloworld.QuickstartSample</servlet-class>
+    <servlet-class>stockage.CloudStorage</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>videoworker</servlet-name>

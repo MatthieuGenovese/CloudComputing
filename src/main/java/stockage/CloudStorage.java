@@ -1,12 +1,15 @@
-package helloworld;
+package stockage;
 
 /**
  * Created by Michael on 03/11/2017.
  */
 // Imports the Google Cloud client library
-import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.*;
 import com.google.cloud.storage.Storage;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.io.*;
 
@@ -15,14 +18,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.Channels;
-import java.nio.channels.WritableByteChannel;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class QuickstartSample extends HttpServlet{
+public class CloudStorage extends HttpServlet{
 
     private static Storage storage = null;
 
@@ -46,6 +45,10 @@ public class QuickstartSample extends HttpServlet{
     }
 
     public String uploadFile(String fileName, byte[] file, final String bucketName) throws IOException {
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+        DateTime dt = DateTime.now(DateTimeZone.UTC);
+        String dtString = dt.toString(dtf);
+        fileName =fileName + dtString;
         storage = StorageOptions.getDefaultInstance().getService();
         BlobInfo blobInfo =
                 storage.create(
