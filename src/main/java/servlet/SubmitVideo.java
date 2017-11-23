@@ -68,11 +68,20 @@ public class SubmitVideo extends HttpServlet {
                 out.print("utilisateur " + username + "authentifié !");
                 found = true;
                 if(checkStatus(client, videoLength)) {
-                    Queue queue = QueueFactory.getQueue("pull-queue");
-                    queue.add(TaskOptions.Builder.withUrl("/videoupload")
-                            .param("videolength", videoLength)
-                            .param("username", username)
-                            .param("id", videoname));
+                    //if(client.getAccountLevel().equalsIgnoreCase("bronze")) {
+                        Queue queue = QueueFactory.getQueue("bronze");
+                        queue.add(TaskOptions.Builder.withUrl("/videoupload")
+                                .param("videolength", videoLength)
+                                .param("username", username)
+                                .param("id", videoname));
+                    //}
+                    /*else{
+                        req.setAttribute("username", username);
+                        req.setAttribute("videoname", videoname);
+                        req.setAttribute("length", videoLength);
+                        req.setAttribute("lease", null);
+                        req.getRequestDispatcher("/WEB-INF/silvergold-queue.jsp").forward(req, resp);
+                    }*/
                 }
             }
             if(!found){

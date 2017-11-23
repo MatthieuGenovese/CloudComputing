@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queue-entries>
     <queue>
-        <name>pull-queue</name>
-        <rate>20/s</rate>
+        <name>silver-gold</name>
+        <mode>pull</mode>
     </queue>
     <queue>
         <name>bronze</name>

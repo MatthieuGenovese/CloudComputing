@@ -4,10 +4,6 @@
   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
   version="2.5">
   <servlet>
-    <servlet-name>queue</servlet-name>
-    <servlet-class>helloworld.ArticleQueue</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>storage</servlet-name>
     <servlet-class>stockage.CloudStorage</servlet-class>
   </servlet>
@@ -20,12 +16,16 @@
     <servlet-class>servlet.VideoStatus</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>silvergold</servlet-name>
+    <servlet-class>workers.SilverGoldWorker</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>loginAPI</servlet-name>
     <servlet-class>servlet.SubmitVideo</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>queue</servlet-name>
-    <url-pattern>/articles</url-pattern>
+    <servlet-name>silvergold</servlet-name>
+    <url-pattern>/silvergoldupload</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>videostatus</servlet-name>
