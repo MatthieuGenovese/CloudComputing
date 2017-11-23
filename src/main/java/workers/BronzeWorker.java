@@ -17,7 +17,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by Matthieu on 21/11/2017.
  */
-public class VideoWorker extends HttpServlet  {
+public class BronzeWorker extends HttpServlet  {
     private UserManager userManager = new UserManager();
     private VideoManager videoManager = new VideoManager();
     private MailManager mailManager = new MailManager();
@@ -29,10 +29,10 @@ public class VideoWorker extends HttpServlet  {
         String videoLength = req.getParameter("videolength");
         if(videoManager.getVideo(username,videoName) == null){
             User u = userManager.getUser(username);
-            u.setCurrentVideos(u.getCurrentVideos()+1);
             Video vid = new Video(username, videoName, videoLength);
             userManager.updateUser(u);
             videoManager.createVideo(vid);
+            u.setCurrentVideos(videoManager.getAllVideosFromUsername(username).size());
             mailManager.setMail(u.getEmail());
             mailManager.setHeader("Demande de conversion");
             mailManager.setUsername(u.getUsername());

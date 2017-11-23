@@ -9,7 +9,7 @@
   </servlet>
   <servlet>
     <servlet-name>videoworker</servlet-name>
-    <servlet-class>workers.VideoWorker</servlet-class>
+    <servlet-class>workers.BronzeWorker</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>videostatus</servlet-name>

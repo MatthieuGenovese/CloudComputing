@@ -37,6 +37,19 @@ public class VideoManager {
         return res;
     }
 
+    public void deleteVideo(String username, String videoname){
+        EntityQuery query =
+                Query.newEntityQueryBuilder().setKind("video")
+                        .build();
+        QueryResults<Entity> results = datastore.run(query);
+        while (results.hasNext()) {
+            Entity entity = results.next();
+            if(entity.getString("username").equalsIgnoreCase(username) && entity.getString("videoname").equalsIgnoreCase(videoname)){
+                datastore.delete(entity.getKey());
+            }
+        }
+    }
+
     public ArrayList<Video> getAllVideosFromUsername(String username){
         ArrayList<Video> res = new ArrayList<>();
         EntityQuery query =

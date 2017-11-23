@@ -4,6 +4,7 @@ import entities.User;
 import entities.Video;
 import stockage.CloudStorage;
 import stockage.UserManager;
+import stockage.VideoManager;
 
 /**
  * Created by Matthieu on 03/11/2017.
@@ -12,6 +13,7 @@ public class Convertisseur implements Runnable{
     private boolean status;
     private CloudStorage storage;
     private UserManager userManager;
+    private VideoManager videoManager;
     private User user;
 
     public User getUser() {
@@ -44,6 +46,7 @@ public class Convertisseur implements Runnable{
         storage = new CloudStorage();
         status = true;
         userManager = new UserManager();
+        videoManager = new VideoManager();
     }
 
     public void run(){
@@ -61,9 +64,10 @@ public class Convertisseur implements Runnable{
         double generatedLong = (Math.random() * (2.5 - 1.8)) * 1.8;
         try {
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
+            videoManager.deleteVideo(vid.getOwner(), vid.getName());
             storage.writeToStorage(vid.getOwner()+vid.getName(),out);
             status = true;
-            user.setCurrentVideos(user.getCurrentVideos()-1);
+            user.setCurrentVideos(videoManager.getAllVideosFromUsername(vid.getOwner()).size());
             userManager.updateUser(user);
         } catch (InterruptedException e) {
             e.printStackTrace();
