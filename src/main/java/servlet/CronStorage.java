@@ -37,40 +37,16 @@ public class CronStorage extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         PrintWriter out = resp.getWriter();
-        ArrayList<Video> list = getAllVideos();
+        ArrayList<Video> list = videoManager.getAllVideosDone();
         for(Video vid : list){
             DateTime vidTime = vid.getSubmitTime();
             if(vidTime.plusMinutes(5).isAfterNow()) {
                 out.println(vid);
             }
             else{
+                videoManager.deleteVideo(vid.getOwner(),vid.getName());
                 storage.deleteToStorage(vid);
             }
         }
-    }
-
-    public ArrayList<Video> getAllVideos(){
-        ArrayList<Video> res = new ArrayList<>();
-        EntityQuery query =
-                Query.newEntityQueryBuilder().setKind("video")
-                        .build();
-        QueryResults<com.google.cloud.datastore.Entity> results = datastore.run(query);
-        while (results.hasNext()) {
-            com.google.cloud.datastore.Entity entity = results.next();
-            String owner = entity.getString("username");
-            String name = entity.getString("videoname");
-            String videolength = entity.getString("videolength");
-            String status = entity.getString("status");
-            String downloadLink = entity.getString("downloadLink");
-            String stringSubmitTime = entity.getString("submitTime");
-            DateTimeFormatter formatter = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
-            DateTime submitTime = formatter.parseDateTime(stringSubmitTime);
-            Video vid = new Video(owner, name, videolength);
-            vid.setDownloadLink(downloadLink);
-            vid.setStatus(status);
-            vid.setSubmitTime(submitTime);
-            res.add(vid);
-        }
-        return res;
     }
 }

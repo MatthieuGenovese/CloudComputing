@@ -112,6 +112,33 @@ public class VideoManager {
         return res;
     }
 
+    public ArrayList<Video> getAllVideosDone(){
+        ArrayList<Video> res = new ArrayList<>();
+        EntityQuery query =
+                Query.newEntityQueryBuilder().setKind("video")
+                        .build();
+        QueryResults<com.google.cloud.datastore.Entity> results = datastore.run(query);
+        while (results.hasNext()) {
+            Entity entity = results.next();
+            if(entity.getString("status").equalsIgnoreCase("done")) {
+                String owner = entity.getString("username");
+                String name = entity.getString("videoname");
+                String videolength = entity.getString("videolength");
+                String status = entity.getString("status");
+                String downloadLink = entity.getString("downloadLink");
+                String stringSubmitTime = entity.getString("submitTime");
+                DateTimeFormatter formatter = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+                DateTime submitTime = formatter.parseDateTime(stringSubmitTime);
+                Video vid = new Video(owner, name, videolength);
+                vid.setDownloadLink(downloadLink);
+                vid.setStatus(status);
+                vid.setSubmitTime(submitTime);
+                res.add(vid);
+            }
+        }
+        return res;
+    }
+
     public void updateVideo(Video vid){
         EntityQuery query =
                 Query.newEntityQueryBuilder()
