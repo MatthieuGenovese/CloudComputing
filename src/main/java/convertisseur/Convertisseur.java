@@ -2,6 +2,8 @@ package convertisseur;
 
 import entities.User;
 import entities.Video;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import stockage.CloudStorage;
 import stockage.UserManager;
 import stockage.VideoManager;
@@ -10,7 +12,6 @@ import stockage.VideoManager;
  * Created by Matthieu on 03/11/2017.
  */
 public class Convertisseur implements Runnable{
-    private boolean status;
     private CloudStorage storage;
     private UserManager userManager;
     private VideoManager videoManager;
@@ -26,14 +27,6 @@ public class Convertisseur implements Runnable{
 
     private Video vid;
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     public Video getVid() {
         return vid;
     }
@@ -44,13 +37,11 @@ public class Convertisseur implements Runnable{
 
     public Convertisseur(){
         storage = new CloudStorage();
-        status = true;
         userManager = new UserManager();
         videoManager = new VideoManager();
     }
 
     public void run(){
-        status = false;
         convert();
     }
 
@@ -65,9 +56,9 @@ public class Convertisseur implements Runnable{
         try {
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             vid.setStatus("done");
+            vid.setDownloadLink(storage.writeToStorage(vid.getOwner()+vid.getName(),out));
+            vid.setSubmitTime(DateTime.now(DateTimeZone.UTC));
             videoManager.updateVideo(vid);
-            storage.writeToStorage(vid.getOwner()+vid.getName(),out);
-            status = true;
             user.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(vid.getOwner()).size());
             userManager.updateUser(user);
         } catch (InterruptedException e) {

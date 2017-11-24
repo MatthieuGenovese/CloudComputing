@@ -38,15 +38,19 @@ public class CloudStorage extends HttpServlet{
         out.println(link);
     }
 
-    public void writeToStorage(String filename, byte[] file){
+    public String writeToStorage(String filename, byte[] file){
         // Instantiates a client
         Storage storage = StorageOptions.getDefaultInstance().getService();
         // The name of the bucket
         String bucketName = "sacc-liechtensteger-182811.appspot.com";  // "my-new-bucket";
-
-        Bucket bucket = storage.get(bucketName);
-
-        bucket.create(filename, file, "text/plain");
+        BlobInfo blobInfo =
+                storage.create(
+                        BlobInfo
+                                .newBuilder(bucketName, filename)
+                                .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
+                                .build(),
+                        file);
+        return blobInfo.getMediaLink();
     }
 
     public String uploadFile(String fileName, byte[] file, final String bucketName) throws IOException {

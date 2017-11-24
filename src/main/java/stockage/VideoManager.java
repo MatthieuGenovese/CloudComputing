@@ -6,6 +6,7 @@ import entities.Video;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 
@@ -70,8 +71,12 @@ public class VideoManager {
                 String name = entity.getString("videoname");
                 String videolength = entity.getString("videolength");
                 String status = entity.getString("status");
-                DateTime submitTime = DateTime.now(DateTimeZone.UTC);
+                String downloadLink = entity.getString("downloadLink");
+                String stringSubmitTime = entity.getString("submitTime");
+                DateTimeFormatter formatter = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+                DateTime submitTime = formatter.parseDateTime(stringSubmitTime);
                 Video vid = new Video(owner, name, videolength);
+                vid.setDownloadLink(downloadLink);
                 vid.setStatus(status);
                 vid.setSubmitTime(submitTime);
                 res.add(vid);
@@ -92,11 +97,15 @@ public class VideoManager {
                 String owner = entity.getString("username");
                 String name = entity.getString("videoname");
                 String videolength = entity.getString("videolength");
+                String downloadLink = entity.getString("downloadLink");
                 String status = entity.getString("status");
-                DateTime submitTime = DateTime.now(DateTimeZone.UTC);
+                String stringSubmitTime = entity.getString("submitTime");
+                DateTimeFormatter formatter = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+                DateTime submitTime = formatter.parseDateTime(stringSubmitTime);
                 Video vid = new Video(owner, name, videolength);
                 vid.setStatus(status);
                 vid.setSubmitTime(submitTime);
+                vid.setDownloadLink(downloadLink);
                 res.add(vid);
             }
         }
@@ -120,6 +129,7 @@ public class VideoManager {
                 .set("videoname", vid.getName())
                 .set("videolength", vid.getLength())
                 .set("status", vid.getStatus())
+                .set("downloadLink", vid.getDownloadLink())
                 .set("submitTime", vid.getSubmitTime().toString(DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS")))
                 .build();
         deleteVideo(vid.getOwner(), vid.getName());
@@ -133,6 +143,7 @@ public class VideoManager {
                 .set("videoname", vid.getName())
                 .set("videolength", vid.getLength())
                 .set("status", vid.getStatus())
+                .set("downloadLink", vid.getDownloadLink())
                 .set("submitTime", vid.getSubmitTime().toString(DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS")))
                 .build();
         datastore.add(user);

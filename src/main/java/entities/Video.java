@@ -14,6 +14,7 @@ public class Video {
     private String length;
     private String status;
     private DateTime submitTime;
+    private String downloadLink;
     //DateTimeFormatter dtf = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
 
     public String getStatus() {
@@ -59,7 +60,15 @@ public class Video {
 
     @Override
     public String toString() {
-        return "Titre : " + name + "; Durée : " + length + "; Status : " + status;
+        return "Titre : " + name + "; Durée : " + length + "; Status : " + status + "; Download link : " + downloadLink;
+    }
+
+    public String getDownloadLink() {
+        return downloadLink;
+    }
+
+    public void setDownloadLink(String downloadLink) {
+        this.downloadLink = downloadLink;
     }
 
     public Video(String owner, String name, String length){
@@ -67,6 +76,7 @@ public class Video {
         this.length = length;
         this.name = name;
         this.status = "pending";
+        this.downloadLink = "N/A";
         this.submitTime = DateTime.now(DateTimeZone.UTC);
     }
 }
