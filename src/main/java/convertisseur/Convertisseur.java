@@ -16,7 +16,6 @@ public class Convertisseur implements Runnable{
     private UserManager userManager;
     private VideoManager videoManager;
     private User user;
-
     public User getUser() {
         return user;
     }
@@ -46,12 +45,11 @@ public class Convertisseur implements Runnable{
     }
 
     private void convert(){
-        int totalSize = (Integer.valueOf(vid.getLength()) * 1048576) / 4;
-
-        byte[] out = new byte[totalSize];
-        for (int i = 0; i < totalSize; i++) {
-              out[i] = (byte) 1;
-        }
+            int totalSize = (Integer.valueOf(vid.getLength()) * 1048576) / 4;
+            byte[] out = new byte[totalSize];
+            for (int i = 0; i < totalSize; i++) {
+                out[i] = (byte) 1;
+            }
         double generatedLong = (Math.random() * (2.5 - 1.8)) + 1.8;
         try {
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));

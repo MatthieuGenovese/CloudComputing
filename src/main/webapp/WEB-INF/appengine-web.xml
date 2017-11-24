@@ -16,5 +16,8 @@
   <application>sacc-liechtensteger-182811</application>
   <version>1</version>
   <threadsafe>true</threadsafe>
+  <system-properties>
+    <property name="appengine.api.urlfetch.defaultDeadline" value="15"/>
+  </system-properties>
 </appengine-web-app>
 <!-- [END config] -->

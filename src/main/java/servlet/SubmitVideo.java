@@ -10,8 +10,10 @@ import com.google.cloud.datastore.*;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.*;
 import convertisseur.Convertisseur;
+import convertisseur.UrlFetch;
 import entities.User;
 import entities.Video;
+import org.json.JSONObject;
 import stockage.UserManager;
 
 import javax.servlet.ServletException;
@@ -68,7 +70,7 @@ public class SubmitVideo extends HttpServlet {
                 out.print("utilisateur " + username + "authentifié !");
                 found = true;
                 if(checkStatus(client, videoLength)) {
-                    //if(client.getAccountLevel().equalsIgnoreCase("bronze")) {
+                   // if(client.getAccountLevel().equalsIgnoreCase("bronze")) {
                         Queue queue = QueueFactory.getQueue("bronze");
                         queue.add(TaskOptions.Builder.withUrl("/videoupload")
                                 .param("videolength", videoLength)
@@ -76,11 +78,9 @@ public class SubmitVideo extends HttpServlet {
                                 .param("id", videoname));
                     //}
                     /*else{
-                        req.setAttribute("username", username);
-                        req.setAttribute("videoname", videoname);
-                        req.setAttribute("length", videoLength);
-                        req.setAttribute("lease", null);
-                        req.getRequestDispatcher("/WEB-INF/silvergold-queue.jsp").forward(req, resp);
+                        UrlFetch dispatcher = new UrlFetch();
+                        JSONObject requete  =new JSONObject().put("username", username).put("videoname", videoname).put("length", videoLength);
+                        dispatcher.doPostRequest("http://sacc-liechtensteger-182811.appspot.com/silvergoldupload", requete);
                     }*/
                 }
             }
