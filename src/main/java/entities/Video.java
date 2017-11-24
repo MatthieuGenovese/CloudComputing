@@ -59,9 +59,7 @@ public class Video {
 
     @Override
     public String toString() {
-        return "owner='" + owner + '\'' +
-                ", name='" + name + '\'' +
-                ", length='" + length + '\'';
+        return "Titre : " + name + "; Durée : " + length + "; Status : " + status;
     }
 
     public Video(String owner, String name, String length){
