@@ -70,18 +70,18 @@ public class SubmitVideo extends HttpServlet {
                 out.print("utilisateur " + username + "authentifié !");
                 found = true;
                 if(checkStatus(client, videoLength)) {
-                   // if(client.getAccountLevel().equalsIgnoreCase("bronze")) {
+                    if(client.getAccountLevel().equalsIgnoreCase("bronze")) {
                         Queue queue = QueueFactory.getQueue("bronze");
                         queue.add(TaskOptions.Builder.withUrl("/videoupload")
                                 .param("videolength", videoLength)
                                 .param("username", username)
                                 .param("id", videoname));
-                    //}
-                    /*else{
-                        UrlFetch dispatcher = new UrlFetch();
-                        JSONObject requete  =new JSONObject().put("username", username).put("videoname", videoname).put("length", videoLength);
-                        dispatcher.doPostRequest("http://sacc-liechtensteger-182811.appspot.com/silvergoldupload", requete);
-                    }*/
+                    }
+                    else{
+                        Queue q = QueueFactory.getQueue("silver-gold");
+                        q.add(TaskOptions.Builder.withMethod(TaskOptions.Method.PULL)
+                                .tag(username + "/" + videoname + "/" + videoLength));
+                    }
                 }
             }
             if(!found){

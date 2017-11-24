@@ -40,7 +40,6 @@ public class VideoManager {
                 res.setStatus(status);
                 res.setSubmitTime(submitTime);
             }
-
         }
         return res;
     }
