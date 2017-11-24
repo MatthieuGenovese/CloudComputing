@@ -50,9 +50,9 @@ public class Convertisseur implements Runnable{
 
         byte[] out = new byte[totalSize];
         for (int i = 0; i < totalSize; i++) {
-              out[i] = (byte) i;
+              out[i] = (byte) 1;
         }
-        double generatedLong = (Math.random() * (2.5 - 1.8)) * 1.8;
+        double generatedLong = (Math.random() * (2.5 - 1.8)) + 1.8;
         try {
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             vid.setStatus("done");

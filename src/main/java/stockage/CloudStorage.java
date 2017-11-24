@@ -6,6 +6,7 @@ package stockage;
 // Imports the Google Cloud client library
 import com.google.cloud.storage.*;
 import com.google.cloud.storage.Storage;
+import entities.Video;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -51,6 +52,14 @@ public class CloudStorage extends HttpServlet{
                                 .build(),
                         file);
         return blobInfo.getMediaLink();
+    }
+
+    public void deleteToStorage(Video vid){
+        String bucketName = "sacc-liechtensteger-182811.appspot.com";  // "my-new-bucket";
+        storage.delete(BlobInfo
+                        .newBuilder(bucketName, vid.getOwner()+vid.getName())
+                        .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
+                        .build().getBlobId());
     }
 
     public String uploadFile(String fileName, byte[] file, final String bucketName) throws IOException {

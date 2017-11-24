@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import entities.Video;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import stockage.CloudStorage;
 import stockage.VideoManager;
 
 import javax.servlet.http.HttpServlet;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
  */
 public class VideoStatus extends HttpServlet {
     VideoManager videoManager = new VideoManager();
+    CloudStorage storage = new CloudStorage();
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
@@ -46,6 +48,7 @@ public class VideoStatus extends HttpServlet {
                 }
                 else{
                     videoManager.deleteVideo(vid.getOwner(),vid.getName());
+                    storage.deleteToStorage(vid);
                 }
             }
         }
