@@ -1,5 +1,10 @@
 package entities;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 /**
  * Created by Matthieu on 03/11/2017.
  */
@@ -7,6 +12,26 @@ public class Video {
     private String owner;
     private String name;
     private String length;
+    private String status;
+    private DateTime submitTime;
+    //DateTimeFormatter dtf = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public DateTime getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(DateTime submitTime) {
+        this.submitTime = submitTime;
+    }
+    //DateTime dt = DateTime.now(DateTimeZone.UTC);
 
     public String getOwner() {
         return owner;
@@ -43,6 +68,7 @@ public class Video {
         this.owner = owner;
         this.length = length;
         this.name = name;
-
+        this.status = "pending";
+        this.submitTime = DateTime.now(DateTimeZone.UTC);
     }
 }

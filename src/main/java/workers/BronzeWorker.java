@@ -4,6 +4,8 @@ import convertisseur.Convertisseur;
 import entities.User;
 import entities.Video;
 import helloworld.MailManager;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import stockage.UserManager;
 import stockage.VideoManager;
 
@@ -30,9 +32,9 @@ public class BronzeWorker extends HttpServlet  {
         if(videoManager.getVideo(username,videoName) == null){
             User u = userManager.getUser(username);
             Video vid = new Video(username, videoName, videoLength);
-            userManager.updateUser(u);
             videoManager.createVideo(vid);
-            u.setCurrentVideos(videoManager.getAllVideosFromUsername(username).size());
+            u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(username).size());
+            userManager.updateUser(u);
             mailManager.setMail(u.getEmail());
             mailManager.setHeader("Demande de conversion");
             mailManager.setUsername(u.getUsername());

@@ -3,6 +3,9 @@ package stockage;
 import com.google.cloud.datastore.*;
 import entities.User;
 import entities.Video;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
 
 import java.util.ArrayList;
 
@@ -30,7 +33,11 @@ public class VideoManager {
                 String owner = entity.getString("username");
                 String name = entity.getString("videoname");
                 String videolength = entity.getString("videolength");
+                String status = entity.getString("status");
+                DateTime submitTime = DateTime.now(DateTimeZone.UTC);
                 res = new Video(owner, name, videolength);
+                res.setStatus(status);
+                res.setSubmitTime(submitTime);
             }
 
         }
@@ -62,29 +69,61 @@ public class VideoManager {
                 String owner = entity.getString("username");
                 String name = entity.getString("videoname");
                 String videolength = entity.getString("videolength");
-                res.add(new Video(owner, name, videolength));
+                String status = entity.getString("status");
+                DateTime submitTime = DateTime.now(DateTimeZone.UTC);
+                Video vid = new Video(owner, name, videolength);
+                vid.setStatus(status);
+                vid.setSubmitTime(submitTime);
+                res.add(vid);
             }
         }
         return res;
     }
 
-    public void updateUser(User user){
+    public ArrayList<Video> getAllPendingsVideosFromUsername(String username){
+        ArrayList<Video> res = new ArrayList<>();
+        EntityQuery query =
+                Query.newEntityQueryBuilder().setKind("video")
+                        .build();
+        QueryResults<Entity> results = datastore.run(query);
+        while (results.hasNext()) {
+            Entity entity = results.next();
+            if(entity.getString("username").equalsIgnoreCase(username) && entity.getString("status").equalsIgnoreCase("pending")){
+                String owner = entity.getString("username");
+                String name = entity.getString("videoname");
+                String videolength = entity.getString("videolength");
+                String status = entity.getString("status");
+                DateTime submitTime = DateTime.now(DateTimeZone.UTC);
+                Video vid = new Video(owner, name, videolength);
+                vid.setStatus(status);
+                vid.setSubmitTime(submitTime);
+                res.add(vid);
+            }
+        }
+        return res;
+    }
+
+    public void updateVideo(Video vid){
         EntityQuery query =
                 Query.newEntityQueryBuilder()
-                        .setKind("user")
-                        .setFilter(StructuredQuery.PropertyFilter.eq("username", user.getUsername()))
+                        .setKind("video")
+                        .setFilter(StructuredQuery.PropertyFilter.eq("videoname", vid.getName()))
+                        .setFilter(StructuredQuery.PropertyFilter.eq("username", vid.getOwner()))
                         .build();
         QueryResults<Entity> results = datastore.run(query);
         if (!results.hasNext()){
             return;
         }
-        Entity.Builder builder = Entity.newBuilder(results.next());
-        builder.set("username",user.getUsername());
-        builder.set("accountlevel", user.getAccountLevel());
-        builder.set("email", user.getEmail());
-        builder.set("currentVid", user.getCurrentVideos());
-        Entity entity = builder.build();
-        datastore.update(entity);
+        IncompleteKey key = keyFactory.newKey();
+        FullEntity<IncompleteKey> user = Entity.newBuilder(key)
+                .set("username", vid.getOwner())
+                .set("videoname", vid.getName())
+                .set("videolength", vid.getLength())
+                .set("status", vid.getStatus())
+                .set("submitTime", vid.getSubmitTime().toString(DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS")))
+                .build();
+        deleteVideo(vid.getOwner(), vid.getName());
+        datastore.add(user);
     }
 
     public void createVideo(Video vid) {
@@ -93,6 +132,8 @@ public class VideoManager {
                 .set("username", vid.getOwner())
                 .set("videoname", vid.getName())
                 .set("videolength", vid.getLength())
+                .set("status", vid.getStatus())
+                .set("submitTime", vid.getSubmitTime().toString(DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS")))
                 .build();
         datastore.add(user);
     }

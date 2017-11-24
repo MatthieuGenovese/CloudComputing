@@ -40,13 +40,10 @@ public class VideoStatus extends HttpServlet {
             for(Video vid : list){
                 out.println(vid);
             }
-            out.println("coco lasticout");
         }
         catch(Exception e){
             out.println(e.toString());
         }
-
-
     }
 }
 

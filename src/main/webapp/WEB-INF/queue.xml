@@ -6,6 +6,6 @@
     </queue>
     <queue>
         <name>bronze</name>
-        <rate>1/m</rate>
+        <rate>20/m</rate>
     </queue>
 </queue-entries>

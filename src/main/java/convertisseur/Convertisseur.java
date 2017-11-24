@@ -64,10 +64,11 @@ public class Convertisseur implements Runnable{
         double generatedLong = (Math.random() * (2.5 - 1.8)) * 1.8;
         try {
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
-            videoManager.deleteVideo(vid.getOwner(), vid.getName());
+            vid.setStatus("done");
+            videoManager.updateVideo(vid);
             storage.writeToStorage(vid.getOwner()+vid.getName(),out);
             status = true;
-            user.setCurrentVideos(videoManager.getAllVideosFromUsername(vid.getOwner()).size());
+            user.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(vid.getOwner()).size());
             userManager.updateUser(user);
         } catch (InterruptedException e) {
             e.printStackTrace();

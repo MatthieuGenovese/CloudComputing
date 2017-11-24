@@ -56,7 +56,7 @@ public class MailManager {
             Message msg = new MimeMessage(session);
             msg.setFrom(new InternetAddress("admin@easymomovideoconvertor.com", "Admin"));
             msg.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress(mail, "Cher "+ username));
+                    new InternetAddress(mail, "User"));
             msg.setSubject(header);
             msg.setText(content);
             Transport.send(msg);
