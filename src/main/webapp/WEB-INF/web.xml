@@ -8,6 +8,10 @@
     <servlet-class>stockage.CloudStorage</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>checkstorage</servlet-name>
+    <servlet-class>servlet.CronStorage</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>videoworker</servlet-name>
     <servlet-class>workers.BronzeWorker</servlet-class>
   </servlet>
@@ -26,6 +30,10 @@
   <servlet-mapping>
     <servlet-name>silvergold</servlet-name>
     <url-pattern>/silvergoldupload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>checkstorage</servlet-name>
+    <url-pattern>/checkstorage</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>videostatus</servlet-name>
