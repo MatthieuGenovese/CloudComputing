@@ -18,10 +18,15 @@ public class HandleConversionRequest {
     }
 
     public User handleRequest(Video vid){
-        User u = userManager.getUser(vid.getOwner());
-        videoManager.createVideo(vid);
-        u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(u.getUsername()).size());
-        userManager.updateUser(u);
-        return u;
+        if(videoManager.getVideo(vid.getOwner(), vid.getName()) == null) {
+            User u = userManager.getUser(vid.getOwner());
+            videoManager.createVideo(vid);
+            u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(u.getUsername()).size());
+            userManager.updateUser(u);
+            return u;
+        }
+        else {
+            return null;
+        }
     }
 }

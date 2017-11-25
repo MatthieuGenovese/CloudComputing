@@ -25,20 +25,15 @@ public class BronzeWorker extends HttpServlet  {
         String username = req.getParameter("username");
         String videoName = req.getParameter("id");
         String videoLength = req.getParameter("videolength");
-        if(videoManager.getVideo(username,videoName) == null){
-            User u = userManager.getUser(username);
-            mailManager.setMail(u.getEmail());
-            mailManager.setHeader("Demande de conversion");
-            mailManager.setUsername(u.getUsername());
-            mailManager.setContent("Nous avons bien pris en compte la demande de conversion de la video " + videoName +", vous serez prévenu lorsque elle sera terminée !");
-            mailManager.sendEmail();
-            Convertisseur convert = new Convertisseur();
-            convert.setVid(new Video(username,videoName,videoLength));
-            convert.setUser(u);
-            convert.run();
-        }
-        else{
-            resp.getWriter().println("Video déjà en cours de conversion !");
-        }
+        User u = userManager.getUser(username);
+        mailManager.setMail(u.getEmail());
+        mailManager.setHeader("Demande de conversion");
+        mailManager.setUsername(u.getUsername());
+        mailManager.setContent("Nous avons bien pris en compte la demande de conversion de la video " + videoName + ", vous serez prévenu lorsque elle sera terminée !");
+        mailManager.sendEmail();
+        Convertisseur convert = new Convertisseur();
+        convert.setVid(new Video(username, videoName, videoLength));
+        convert.setUser(u);
+        convert.run();
     }
 }

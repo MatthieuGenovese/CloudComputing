@@ -68,22 +68,27 @@ public class SubmitVideo extends HttpServlet {
             if(client != null){
                 out.print("utilisateur " + username + "authentifie !");
                 client = handler.handleRequest(new Video(username, videoname, videoLength));
-                if(checkStatus(client, videoLength, out)) {
-                    if(client.getAccountLevel().equalsIgnoreCase("bronze")){
-                        Queue bonzeQueue = QueueFactory.getQueue("bronze");
-                        bonzeQueue.add(TaskOptions.Builder.withUrl("/bronzequeue")
-                                .param("videolength", videoLength)
-                                .param("username", username)
-                                .param("id", videoname));
+                out.println("j'ai : "+ client.getCurrentVideos());
+                if(client != null) {
+                    if (checkStatus(client, videoLength, out)) {
+                        if (client.getAccountLevel().equalsIgnoreCase("bronze")) {
+                            Queue bonzeQueue = QueueFactory.getQueue("bronze");
+                            bonzeQueue.add(TaskOptions.Builder.withUrl("/bronzequeue")
+                                    .param("videolength", videoLength)
+                                    .param("username", username)
+                                    .param("id", videoname));
+                        } else {
+                            Queue queue = QueueFactory.getQueue("silvergold");
+                            queue.add(TaskOptions.Builder.withUrl("/queuedispatch")
+                                    .param("videolength", videoLength)
+                                    .param("username", username)
+                                    .param("id", videoname));
+                            out.println("Video acceptee, la conversion est en cours!");
+                        }
                     }
-                    else {
-                        Queue queue = QueueFactory.getQueue("silvergold");
-                        queue.add(TaskOptions.Builder.withUrl("/queuedispatch")
-                                .param("videolength", videoLength)
-                                .param("username", username)
-                                .param("id", videoname));
-                        out.println("Video acceptee, la conversion est en cours!");
-                    }
+                }
+                else{
+                    out.println("Video deja en cours de conversion !");
                 }
             }
             else{
@@ -101,7 +106,7 @@ public class SubmitVideo extends HttpServlet {
         }
         else{
             if(user.getAccountLevel().equalsIgnoreCase("silver")){
-                if(user.getCurrentVideos() < 3) {
+                if(user.getCurrentVideos() < 2) {
                     return true;
                 }
                 else{
@@ -110,7 +115,7 @@ public class SubmitVideo extends HttpServlet {
                 }
             }
             else if(user.getAccountLevel().equalsIgnoreCase("gold")){
-                if(user.getCurrentVideos() < 5) {
+                if(user.getCurrentVideos() < 4) {
                     return true;
                 }
                 else{
