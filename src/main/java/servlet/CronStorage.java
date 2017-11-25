@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import stockage.CloudStorage;
+import stockage.UserManager;
 import stockage.VideoManager;
 
 import javax.servlet.ServletException;
@@ -28,6 +29,7 @@ public class CronStorage extends HttpServlet {
     private final KeyFactory keyFactory;
     VideoManager videoManager = new VideoManager();
     CloudStorage storage = new CloudStorage();
+    UserManager userManager = new UserManager();
 
     public CronStorage(){
         datastore = DatastoreOptions.getDefaultInstance().getService();
@@ -40,7 +42,15 @@ public class CronStorage extends HttpServlet {
         ArrayList<Video> list = videoManager.getAllVideosDone();
         for(Video vid : list){
             DateTime vidTime = vid.getSubmitTime();
-            if(vidTime.plusMinutes(5).isAfterNow()) {
+            String accountLevel = userManager.getUser(vid.getOwner()).getAccountLevel();
+            int timeCheck;
+            if(accountLevel.equalsIgnoreCase("gold")){
+                timeCheck = 10;
+            }
+            else{
+                timeCheck = 5;
+            }
+            if(vidTime.plusMinutes(timeCheck).isAfterNow()) {
                 out.println(vid);
             }
             else{
