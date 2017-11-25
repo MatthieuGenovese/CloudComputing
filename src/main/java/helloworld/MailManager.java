@@ -54,7 +54,7 @@ public class MailManager {
             Properties props = new Properties();
             Session session = Session.getDefaultInstance(props, null);
             Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("admin@easymomovideoconvertor.com", "Admin"));
+            msg.setFrom(new InternetAddress("matthieu.genovese@gmail.com", "Admin"));
             msg.addRecipient(Message.RecipientType.TO,
                     new InternetAddress(mail, "User"));
             msg.setSubject(header);
