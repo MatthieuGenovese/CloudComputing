@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.cloud.datastore.*;
+import entities.User;
 import entities.Video;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -51,6 +53,11 @@ public class CronStorage extends HttpServlet {
                 videoManager.deleteVideo(vid.getOwner(),vid.getName());
                 storage.deleteToStorage(vid);
             }
+        }
+        ArrayList<User> listUsers = userManager.getAllUsers();
+        for(User user : listUsers){
+            user.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(user.getUsername()).size());
+            userManager.updateUser(user);
         }
     }
 }

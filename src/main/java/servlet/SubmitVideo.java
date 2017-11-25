@@ -10,7 +10,6 @@ import com.google.cloud.datastore.*;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.*;
 import convertisseur.Convertisseur;
-import convertisseur.UrlFetch;
 import entities.User;
 import entities.Video;
 import org.json.JSONObject;

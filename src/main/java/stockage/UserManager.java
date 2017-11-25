@@ -5,8 +5,11 @@ package stockage;
  */
 import com.google.cloud.datastore.*;
 import entities.User;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserManager {
     private final Datastore datastore;
@@ -33,6 +36,25 @@ public class UserManager {
                 res.setCurrentVideos(Integer.valueOf(currentVid));
             }
 
+        }
+        return res;
+    }
+
+    public ArrayList<User> getAllUsers(){
+        ArrayList<User> res = new ArrayList<>();
+        EntityQuery query =
+                Query.newEntityQueryBuilder().setKind("user")
+                        .build();
+        QueryResults<Entity> results = datastore.run(query);
+        while (results.hasNext()) {
+            Entity entity = results.next();
+            String username = entity.getString("username");
+            String accountlevel = entity.getString("accountlevel");
+            String currentVid = String.valueOf(entity.getLong("currentVid"));
+            String email = entity.getString("email");
+            User user = new User(username, accountlevel, email);
+            user.setCurrentVideos(Integer.valueOf(currentVid));
+            res.add(user);
         }
         return res;
     }
