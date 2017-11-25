@@ -12,6 +12,10 @@
     <servlet-class>servlet.CronStorage</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>mainpage</servlet-name>
+    <servlet-class>servlet.MainPageServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>videoworker</servlet-name>
     <servlet-class>workers.BronzeWorker</servlet-class>
   </servlet>
@@ -34,6 +38,10 @@
   <servlet-mapping>
     <servlet-name>checkstorage</servlet-name>
     <url-pattern>/checkstorage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>mainpage</servlet-name>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>videostatus</servlet-name>
