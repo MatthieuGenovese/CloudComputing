@@ -9,7 +9,7 @@
         <rate>20/m</rate>
     </queue>
     <queue>
-        <name>mainqueue</name>
+        <name>silvergold</name>
         <rate>10/s</rate>
         <bucket-size>20</bucket-size>
     </queue>

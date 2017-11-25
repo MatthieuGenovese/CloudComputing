@@ -27,14 +27,10 @@ public class BronzeWorker extends HttpServlet  {
         String videoLength = req.getParameter("videolength");
         if(videoManager.getVideo(username,videoName) == null){
             User u = userManager.getUser(username);
-            Video vid = new Video(username, videoName, videoLength);
-            videoManager.createVideo(vid);
-            u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(username).size());
-            userManager.updateUser(u);
             mailManager.setMail(u.getEmail());
             mailManager.setHeader("Demande de conversion");
             mailManager.setUsername(u.getUsername());
-            mailManager.setContent("Nous avons bien pris en compte la demande de conversion de la video " + vid.getName() +", vous serez prévenu lorsque elle sera terminée !");
+            mailManager.setContent("Nous avons bien pris en compte la demande de conversion de la video " + videoName +", vous serez prévenu lorsque elle sera terminée !");
             mailManager.sendEmail();
             Convertisseur convert = new Convertisseur();
             convert.setVid(new Video(username,videoName,videoLength));

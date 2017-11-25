@@ -14,6 +14,7 @@ import entities.User;
 import entities.Video;
 import org.json.JSONObject;
 import stockage.UserManager;
+import utils.HandleConversionRequest;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +30,8 @@ import java.util.List;
  * Created by Matthieu on 03/11/2017.
  */
 public class SubmitVideo extends HttpServlet {
-    Convertisseur conv = new Convertisseur();
     UserManager userManager = new UserManager();
+    HandleConversionRequest handler = new HandleConversionRequest();
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         for(int i = 0; i < 5; i++) {
@@ -63,21 +64,29 @@ public class SubmitVideo extends HttpServlet {
             String videoname = jsontest.get("video").getAsString();
             String videoLength = jsontest.get("length").getAsString();
             String email = jsontest.get("email").getAsString();
-            boolean found = false;
             User client = userManager.getUser(username);
             if(client != null){
                 out.print("utilisateur " + username + "authentifie !");
-                found = true;
+                client = handler.handleRequest(new Video(username, videoname, videoLength));
                 if(checkStatus(client, videoLength, out)) {
-                    Queue queue = QueueFactory.getQueue("mainqueue");
-                    queue.add(TaskOptions.Builder.withUrl("/queuedispatch")
-                            .param("videolength", videoLength)
-                            .param("username", username)
-                            .param("id", videoname));
-                    out.println("Video acceptee, la conversion est en cours!");
+                    if(client.getAccountLevel().equalsIgnoreCase("bronze")){
+                        Queue bonzeQueue = QueueFactory.getQueue("bronze");
+                        bonzeQueue.add(TaskOptions.Builder.withUrl("/bronzequeue")
+                                .param("videolength", videoLength)
+                                .param("username", username)
+                                .param("id", videoname));
+                    }
+                    else {
+                        Queue queue = QueueFactory.getQueue("silvergold");
+                        queue.add(TaskOptions.Builder.withUrl("/queuedispatch")
+                                .param("videolength", videoLength)
+                                .param("username", username)
+                                .param("id", videoname));
+                        out.println("Video acceptee, la conversion est en cours!");
+                    }
                 }
             }
-            if(!found){
+            else{
                 out.print("Utilisateur non enregistre !");
             }
         } catch (Exception e) {
