@@ -67,6 +67,7 @@ public class SubmitVideo extends HttpServlet {
             User client = userManager.getUser(username);
             if(client != null){
                 out.print("utilisateur " + username + "authentifie !");
+                //TODO TOTOTOTOTOTOTOTOTOTOTOTOTOTO CA MARCHE PAS BIEIZIFK SDKFBIENBIENBIENBIE?N
                 client = handler.handleRequest(new Video(username, videoname, videoLength));
                 out.println("j'ai : "+ client.getCurrentVideos());
                 if(client != null) {
