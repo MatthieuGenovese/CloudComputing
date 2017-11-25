@@ -2,6 +2,7 @@ package convertisseur;
 
 import entities.User;
 import entities.Video;
+import utils.MailManager;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import stockage.CloudStorage;
@@ -15,6 +16,7 @@ public class Convertisseur implements Runnable{
     private CloudStorage storage;
     private UserManager userManager;
     private VideoManager videoManager;
+    private MailManager mailManager;
     private User user;
     public User getUser() {
         return user;
@@ -38,6 +40,7 @@ public class Convertisseur implements Runnable{
         storage = new CloudStorage();
         userManager = new UserManager();
         videoManager = new VideoManager();
+        mailManager = new MailManager();
     }
 
     public void run(){
@@ -50,7 +53,8 @@ public class Convertisseur implements Runnable{
             for (int i = 0; i < totalSize; i++) {
                 out[i] = (byte) 1;
             }
-        double generatedLong = (Math.random() * (2.5 - 1.8)) + 1.8;
+        double generatedLong = (Math.random() * (2.5 - 1.1)) + 1.1;
+
         try {
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             vid.setStatus("done");
@@ -59,6 +63,11 @@ public class Convertisseur implements Runnable{
             videoManager.updateVideo(vid);
             user.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(vid.getOwner()).size());
             userManager.updateUser(user);
+            mailManager.setContent("La video " + vid.getName() + "est bien convertie ! \n Lien de téléchargement : " + vid.getDownloadLink());
+            mailManager.setHeader("Conversion terminée !");
+            mailManager.setMail(user.getEmail());
+            mailManager.setUsername(user.getUsername());
+            mailManager.sendEmail();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

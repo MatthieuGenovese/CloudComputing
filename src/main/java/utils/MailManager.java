@@ -1,4 +1,4 @@
-package helloworld;
+package utils;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -54,7 +54,7 @@ public class MailManager {
             Properties props = new Properties();
             Session session = Session.getDefaultInstance(props, null);
             Message msg = new MimeMessage(session);
-            msg.setFrom(new InternetAddress("admin@easymomovideoconvertor.com", "Admin"));
+            msg.setFrom(new InternetAddress("Admin@sacc-liechtensteger-182811.appspotmail.com", "Admin"));
             msg.addRecipient(Message.RecipientType.TO,
                     new InternetAddress(mail, "User"));
             msg.setSubject(header);

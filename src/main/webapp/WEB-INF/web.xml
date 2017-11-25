@@ -8,11 +8,19 @@
     <servlet-class>stockage.CloudStorage</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>mainqueue</servlet-name>
+    <servlet-class>workers.QueueWorker</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>checkstorage</servlet-name>
     <servlet-class>servlet.CronStorage</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>videoworker</servlet-name>
+    <servlet-name>mainpage</servlet-name>
+    <servlet-class>servlet.MainPageServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>bronzequeue</servlet-name>
     <servlet-class>workers.BronzeWorker</servlet-class>
   </servlet>
   <servlet>
@@ -20,28 +28,28 @@
     <servlet-class>servlet.VideoStatus</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>silvergold</servlet-name>
-    <servlet-class>workers.SilverGoldWorker</servlet-class>
-  </servlet>
-  <servlet>
     <servlet-name>loginAPI</servlet-name>
     <servlet-class>servlet.SubmitVideo</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>silvergold</servlet-name>
-    <url-pattern>/silvergoldupload</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
     <servlet-name>checkstorage</servlet-name>
     <url-pattern>/checkstorage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>mainpage</servlet-name>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>videostatus</servlet-name>
     <url-pattern>/status</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>videoworker</servlet-name>
-    <url-pattern>/videoupload</url-pattern>
+    <servlet-name>bronzequeue</servlet-name>
+    <url-pattern>/bronzequeue</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>mainqueue</servlet-name>
+    <url-pattern>/queuedispatch</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>loginAPI</servlet-name>
