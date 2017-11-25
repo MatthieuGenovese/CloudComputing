@@ -6,7 +6,7 @@ import com.google.appengine.api.taskqueue.TaskOptions;
 import convertisseur.Convertisseur;
 import entities.User;
 import entities.Video;
-import helloworld.MailManager;
+import utils.MailManager;
 import stockage.UserManager;
 import stockage.VideoManager;
 

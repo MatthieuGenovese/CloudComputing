@@ -24,15 +24,9 @@ import java.util.ArrayList;
  */
 public class CronStorage extends HttpServlet {
 
-    private final Datastore datastore;
-    private final KeyFactory keyFactory;
     VideoManager videoManager = new VideoManager();
     CloudStorage storage = new CloudStorage();
 
-    public CronStorage(){
-        datastore = DatastoreOptions.getDefaultInstance().getService();
-        keyFactory = datastore.newKeyFactory().setKind("video");
-    }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

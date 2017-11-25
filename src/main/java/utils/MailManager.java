@@ -1,4 +1,4 @@
-package helloworld;
+package utils;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

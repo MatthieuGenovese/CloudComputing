@@ -67,31 +67,19 @@ public class SubmitVideo extends HttpServlet {
             boolean found = false;
             User client = userManager.getUser(username);
             if(client != null){
-                out.print("utilisateur " + username + "authentifié !");
+                out.print("utilisateur " + username + "authentifie !");
                 found = true;
-                if(checkStatus(client, videoLength)) {
-
+                if(checkStatus(client, videoLength, out)) {
                     Queue queue = QueueFactory.getQueue("mainqueue");
                     queue.add(TaskOptions.Builder.withUrl("/queuedispatch")
                             .param("videolength", videoLength)
                             .param("username", username)
                             .param("id", videoname));
-                    /*if(client.getAccountLevel().equalsIgnoreCase("bronze")) {
-                        Queue queue = QueueFactory.getQueue("bronze");
-                        queue.add(TaskOptions.Builder.withUrl("/queuedispatch")
-                                .param("videolength", videoLength)
-                                .param("username", username)
-                                .param("id", videoname));
-                    }
-                    else{
-                        Queue q = QueueFactory.getQueue("silver-gold");
-                        q.add(TaskOptions.Builder.withMethod(TaskOptions.Method.PULL)
-                                .tag(username + "/" + videoname + "/" + videoLength));
-                    }*/
+                    out.println("Video acceptee, la conversion est en cours!");
                 }
             }
             if(!found){
-                out.print("Utilisateur non enregistré !");
+                out.print("Utilisateur non enregistre !");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,7 +87,7 @@ public class SubmitVideo extends HttpServlet {
         }
     }
 
-    private boolean checkStatus(User user, String videoLength){
+    private boolean checkStatus(User user, String videoLength, PrintWriter out){
         if(user.getAccountLevel().equalsIgnoreCase("bronze") && Integer.valueOf(videoLength) <= 60 && user.getCurrentVideos() == 0){
             return true;
         }
@@ -109,6 +97,7 @@ public class SubmitVideo extends HttpServlet {
                     return true;
                 }
                 else{
+                    out.println("Vous convertissez deja 3 videos");
                     return false;
                 }
             }
@@ -117,10 +106,16 @@ public class SubmitVideo extends HttpServlet {
                     return true;
                 }
                 else{
+                    out.println("Vous convertissez deja 5 videos");
                     return false;
                 }
             }
         }
+        if(Integer.valueOf(videoLength) > 60){
+            out.println("Video trop longue !");
+            return false;
+        }
+        out.println("Vous convertissez deja 1 video");
         return false;
     }
 }

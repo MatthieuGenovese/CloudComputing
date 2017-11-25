@@ -2,7 +2,7 @@ package convertisseur;
 
 import entities.User;
 import entities.Video;
-import helloworld.MailManager;
+import utils.MailManager;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import stockage.CloudStorage;
@@ -53,7 +53,8 @@ public class Convertisseur implements Runnable{
             for (int i = 0; i < totalSize; i++) {
                 out[i] = (byte) 1;
             }
-        double generatedLong = (Math.random() * (2.5 - 1.8)) + 1.8;
+        double generatedLong = (Math.random() * (2.5 - 1.1)) + 1.1;
+
         try {
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             vid.setStatus("done");

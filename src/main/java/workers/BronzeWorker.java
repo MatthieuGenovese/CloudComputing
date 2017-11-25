@@ -3,18 +3,14 @@ package workers;
 import convertisseur.Convertisseur;
 import entities.User;
 import entities.Video;
-import helloworld.MailManager;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
+import utils.MailManager;
 import stockage.UserManager;
 import stockage.VideoManager;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 
 /**
  * Created by Matthieu on 21/11/2017.
