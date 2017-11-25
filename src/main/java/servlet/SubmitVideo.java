@@ -38,7 +38,7 @@ public class SubmitVideo extends HttpServlet {
             Entity entity = new Entity("user");
             entity.setProperty("username", "toto" + String.valueOf(i));
             entity.setProperty("accountlevel", "gold");
-            entity.setProperty("email", "gm102445@etu.unice.fr");
+            entity.setProperty("email", "mohamedchennouf06@gmail.com");
             entity.setProperty("currentVid", 0);
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             datastore.put(entity);

@@ -48,7 +48,7 @@ public class SilverGoldWorker extends HttpServlet{
                 User u = userManager.getUser(array[0]);
                 Video vid = new Video(array[0], array[1], array[2]);
                 videoManager.createVideo(vid);
-                u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(array[0]).size());
+                u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(u.getUsername()).size());
                 userManager.updateUser(u);
                 mailManager.setMail(u.getEmail());
                 mailManager.setHeader("Demande de conversion");
