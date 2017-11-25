@@ -70,9 +70,15 @@ public class SubmitVideo extends HttpServlet {
                 out.print("utilisateur " + username + "authentifié !");
                 found = true;
                 if(checkStatus(client, videoLength)) {
-                    if(client.getAccountLevel().equalsIgnoreCase("bronze")) {
+
+                    Queue queue = QueueFactory.getQueue("mainqueue");
+                    queue.add(TaskOptions.Builder.withUrl("/queuedispatch")
+                            .param("videolength", videoLength)
+                            .param("username", username)
+                            .param("id", videoname));
+                    /*if(client.getAccountLevel().equalsIgnoreCase("bronze")) {
                         Queue queue = QueueFactory.getQueue("bronze");
-                        queue.add(TaskOptions.Builder.withUrl("/videoupload")
+                        queue.add(TaskOptions.Builder.withUrl("/queuedispatch")
                                 .param("videolength", videoLength)
                                 .param("username", username)
                                 .param("id", videoname));
@@ -81,7 +87,7 @@ public class SubmitVideo extends HttpServlet {
                         Queue q = QueueFactory.getQueue("silver-gold");
                         q.add(TaskOptions.Builder.withMethod(TaskOptions.Method.PULL)
                                 .tag(username + "/" + videoname + "/" + videoLength));
-                    }
+                    }*/
                 }
             }
             if(!found){

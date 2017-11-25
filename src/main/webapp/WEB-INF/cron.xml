@@ -5,9 +5,4 @@
         <description>daily summary job</description>
         <schedule>every 1 minutes</schedule>
     </cron>
-    <cron>
-        <url>/silvergoldupload</url>
-        <description>check silver queue</description>
-        <schedule>every 1 minutes</schedule>
-    </cron>
 </cronentries>
