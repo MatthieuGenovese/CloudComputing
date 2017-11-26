@@ -62,6 +62,24 @@ Nous avons choisi d'avoir 5 instances afin de pouvoir gérer les 5 requêtes que
 Nous avons une base de 5 instances, qui nous coûtent au total 139$/mois. Lorsqu'un surplus d’utilisateur silver et gold surchargent une instance, on scale et on ajoute une machine pour supporter la charge. On a un scaling qui peut au pire des cas doubler soit 278$/mois.
 
 On considère qu'au minimum nous avons 50 utilisateurs, on souhaite être rentable à partir de ce nombre minimum estimé, donc cela nous donne : 4.99$/mois pour les bronzes, 9.99$/mois pour les silvers, 14.99$/mois pour les golds
+
+## Requetes implémentées
+
+### Créer un utilisateur
+
+Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/createaccount  
+contenu du json : { "username" : "francislebg", "email":"toto@gmail.com", "accountlevel" : "gold"}  
+
+### Poster une video
+
+Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/login  
+contenu du json : { "username" : "francislebg", "video" : "gfgdfddfdssdfsgsdfsdfshgffghfghfghfffghfghfghfhdfgdfgdgfdfgddgfs", "length" : "40"}
+
+
+### Lister les videos courantes 
+
+Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/status
+contenu du json : { "username" : "francislebg" }
   
   
 
