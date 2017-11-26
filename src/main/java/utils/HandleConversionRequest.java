@@ -23,9 +23,10 @@ public class HandleConversionRequest {
         if(videoManager.getVideo(vid.getOwner(), vid.getName()) == null) {
             User u = userManager.getUser(vid.getOwner());
             if(checkStatus(u, vid.getLength(), out)) {
+                u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(u.getUsername()).size()+1);
                 videoManager.createVideo(vid);
-                u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(u.getUsername()).size());
                 userManager.updateUser(u);
+                out.println("nb video : " + u.getCurrentVideos());
                 return true;
             }
             return false;
