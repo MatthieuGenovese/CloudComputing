@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class CloudStorage extends HttpServlet{
+public class CloudStorage{
 
     private static Storage storage = null;
 
@@ -31,17 +31,9 @@ public class CloudStorage extends HttpServlet{
         storage = StorageOptions.getDefaultInstance().getService();
     }
 
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        byte[] b = new byte[256];
-        String link = uploadFile("testStorage", b, "sacc-liechtensteger-182811.appspot.com");
-        PrintWriter out = resp.getWriter();
-        out.println(link);
-    }
-
     public String writeToStorage(String filename, byte[] file){
         // Instantiates a client
-        Storage storage = StorageOptions.getDefaultInstance().getService();
+        storage = StorageOptions.getDefaultInstance().getService();
         // The name of the bucket
         String bucketName = "sacc-liechtensteger-182811.appspot.com";  // "my-new-bucket";
         BlobInfo blobInfo =
@@ -60,20 +52,5 @@ public class CloudStorage extends HttpServlet{
                         .newBuilder(bucketName, vid.getOwner()+vid.getName())
                         .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
                         .build().getBlobId());
-    }
-
-    public String uploadFile(String fileName, byte[] file, final String bucketName) throws IOException {
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
-        DateTime dt = DateTime.now(DateTimeZone.UTC);
-        String dtString = dt.toString(dtf);
-        fileName =fileName + dtString;
-        BlobInfo blobInfo =
-                storage.create(
-                        BlobInfo
-                                .newBuilder(bucketName, fileName)
-                                .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
-                                .build(),
-                        file);
-        return blobInfo.getMediaLink();
     }
 }

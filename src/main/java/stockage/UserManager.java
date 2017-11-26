@@ -78,13 +78,13 @@ public class UserManager {
         datastore.update(entity);
     }
 
-    public void createUser(String username, String accountLevel, String email) {
+    public void createUser(User u) {
         IncompleteKey key = keyFactory.newKey();
         FullEntity<IncompleteKey> user = Entity.newBuilder(key)
-                .set("username", username)
-                .set("email", email)
-                .set("accountlevel", accountLevel)
-                .set("currentVid", new ArrayList<Value<?>>())
+                .set("username", u.getUsername())
+                .set("email", u.getEmail())
+                .set("accountlevel", u.getAccountLevel())
+                .set("currentVid", u.getCurrentVideos())
                 .build();
         datastore.add(user);
     }
