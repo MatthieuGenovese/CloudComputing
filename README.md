@@ -68,19 +68,21 @@ On considère qu'au minimum nous avons 50 utilisateurs, on souhaite être rentab
 ### Créer un utilisateur
 
 Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/createaccount  
-contenu du json : ```{ "username" : "francislebg", "email":"toto@gmail.com", "accountlevel" : "gold"} ```
+contenu du json :  
+```{ "username" : "francislebg", "email":"toto@gmail.com", "accountlevel" : "gold"} ```
 
 ### Poster une video
 
 Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/login  
-contenu du json : ```{ "username" : "francislebg", "video" : "gfgdfddfdssdfsgsdfsdfshgffghfghfghfffghfghfghfhdfgdfgdgfdfgddgfs", "length" : "40"}
-```
+contenu du json :   
+```{ "username" : "francislebg", "video" : "gfgdfddfdssdfsgsdfsdfshgffghfghfghfffghfghfghfhdfgdfgdgfdfgddgfs", "length" : "40"}```
 
 
 ### Lister les videos courantes 
 
 Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/status
-contenu du json : ```{ "username" : "francislebg" }```
+contenu du json :  
+```{ "username" : "francislebg" }```
   
   
 
