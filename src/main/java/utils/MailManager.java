@@ -59,7 +59,7 @@ public class MailManager {
                     new InternetAddress(mail, "User"));
             msg.setSubject(header);
             msg.setText(content);
-            //Transport.send(msg);
+            Transport.send(msg);
         } catch (AddressException e) {
             e.printStackTrace();
         } catch (MessagingException e) {

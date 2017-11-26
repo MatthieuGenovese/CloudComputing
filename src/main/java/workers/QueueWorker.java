@@ -34,36 +34,29 @@ public class QueueWorker extends HttpServlet {
         String videoName = req.getParameter("id");
         String videoLength = req.getParameter("videolength");
         User u = userManager.getUser(username);
-        if (u.getAccountLevel().equalsIgnoreCase("bronze")) {
-            Queue bonzeQueue = QueueFactory.getQueue("bronze");
-            bonzeQueue.add(TaskOptions.Builder.withUrl("/bronzequeue")
-                    .param("videolength", videoLength)
-                    .param("username", username)
-                    .param("id", videoName));
+        if (u.getAccountLevel().equalsIgnoreCase("silver")) {
+            videoNumber = 3;
         } else {
-            if (u.getAccountLevel().equalsIgnoreCase("silver")) {
-                videoNumber = 3;
-            } else {
-                videoNumber = 5;
-            }
-            Queue silverGoldQueue = QueueFactory.getQueue("silver-gold");
-            String tag = username + "/" + videoName + "/" + videoLength;
-
-            silverGoldQueue.add(TaskOptions.Builder.withMethod(TaskOptions.Method.PULL)
-                    .tag(tag));
-
-            List<TaskHandle> tasks =
-                    silverGoldQueue.leaseTasksByTag(300, TimeUnit.SECONDS, videoNumber, tag);
-            processTasks(tasks, silverGoldQueue);
-
+            videoNumber = 5;
         }
+        Queue silverGoldQueue = QueueFactory.getQueue("silver-gold");
+        String payload =  username + "/" + videoName + "/" + videoLength;
+
+        silverGoldQueue.add(TaskOptions.Builder.withMethod(TaskOptions.Method.PULL)
+                .payload(payload)
+                .tag(username));
+
+        List<TaskHandle> tasks =
+                silverGoldQueue.leaseTasksByTag(300, TimeUnit.SECONDS, videoNumber, username);
+        processTasks(tasks, silverGoldQueue);
+
 
     }
 
     private void processTasks(List<TaskHandle> tasks, Queue q) throws UnsupportedEncodingException {
         for (TaskHandle task : tasks) {
-            String tag = task.getTag();
-            String[] array = tag.split("/");
+            String payload = new String(task.getPayload());
+            String[] array = payload.split("/");
             User u = userManager.getUser(array[0]);
             Video vid = new Video(array[0], array[1], array[2]);
             mailManager.setMail(u.getEmail());
