@@ -73,7 +73,7 @@ contenu du json :
 
 ### Poster une video
 
-Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/login  
+Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/upload
 contenu du json :   
 ```{ "username" : "francislebg", "video" : "gfgdfddfdssdfsgsdfsdfshgffghfghfghfffghfghfghfhdfgdfgdgfdfgddgfs", "length" : "40"}```
 
