@@ -1,5 +1,9 @@
 package servlet;
 
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,29 +18,20 @@ import java.io.PrintWriter;
 
 
 public class MainPage extends HttpServlet {
+    private static String message = "";
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        req.getRequestDispatcher("taskqueues.jsp").forward(req,resp);
-        /*resp.setContentType( "text/html" );
-        PrintWriter out = resp.getWriter();
-        out.println( "<HTML>" );
-        out.println( "<HEAD>");
-        out.println( "<TITLE>Page generee par une servlet</TITLE>" );
-        out.println( "</HEAD>" );
-        out.println( "<BODY>" );
-        out.println( "<H1>Bonjour</H1>" );
-        out.println( "</BODY>" );
-        out.println( "</HTML>" );
-        out.close();*/
+        String username = req.getParameter("username");
+        String video = req.getParameter("video");
+        String taille = req.getParameter("taille");
+
+        message = "Added " + 1 + " tasks to the task queue.";
+        req.setAttribute("message", message);
+        req.getRequestDispatcher("taskqueues.jsp").forward(req, resp);
     }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        /*res.setContentType("text/html");
-        PrintWriter out = res.getWriter();
-        out.println("<html><head></head><body>");
-        out.println("Hello world !!!");
-        out.println("</body></html>");*/
         req.getRequestDispatcher("taskqueues.jsp").forward(req,res);
     }
 }

@@ -66,8 +66,15 @@
     <alignLeft>
         Taille de la Vidéo: <input type="text" name"taille" value="30"><br><br>
     </alignLeft>
-    <input type="submit" value="Convertir">
+
+    <form action = "http://sacc-liechtensteger-182811.appspot.com/upload" method="post" enctype ="multipart/raw">
+        <input type="submit"  value="Convertir"/>
+    </form>
+
+    ${message}
 </div>
+
+
 
 </body>
 </html>
