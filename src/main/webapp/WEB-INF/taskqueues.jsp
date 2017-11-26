@@ -19,34 +19,13 @@
 <head>
     <style type="text/css">
     body {
-        background-color: silver;
+
     }
     </style>
 </head>
 
 <body>
-
-<form action="/silvergoldupload" method="post">
-    <div>
-        <textarea name="content" placeholder="Enter a task payload" rows="3" cols="60"></textarea></div>
-    <div><input type="submit" name="username" value=${username}/></div>
-    <div><input type="submit" name="videoname" value=${videoname}/></div>
-    <div><input type="submit" name="length" value=${length}/></div>
-</form>
-<br>
-<form action="/silvergoldupload" method="post">
-    <div><input type="submit" name="leaseTask" value=${lease}/></div>
-</form>
-<br>
-<div>
-  ${username}
-  <br><br>
-  <a href="https://console.cloud.google.com/appengine/taskqueues" target="_blank">
-    View task queues in the Developers Console</a>
-  <br><br>
-  <a href="https://console.cloud.google.com/logs" target="_blank">
-    View task activity logged in the Developers Console</a>
-</div>
+<div> test </div>
 
 </body>
 </html>
