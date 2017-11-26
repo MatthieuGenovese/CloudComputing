@@ -33,18 +33,6 @@ public class SubmitVideo extends HttpServlet {
     UserManager userManager = new UserManager();
     HandleConversionRequest handler = new HandleConversionRequest();
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        for(int i = 0; i < 5; i++) {
-            Entity entity = new Entity("user");
-            entity.setProperty("username", "toto" + String.valueOf(i));
-            entity.setProperty("accountlevel", "gold");
-            entity.setProperty("email", "mohamedchennouf06@gmail.com");
-            entity.setProperty("currentVid", 0);
-            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-            datastore.put(entity);
-        }
-    }
-    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
         StringBuffer jb = new StringBuffer();
@@ -63,7 +51,6 @@ public class SubmitVideo extends HttpServlet {
             String username = jsontest.get("username").getAsString();
             String videoname = jsontest.get("video").getAsString();
             String videoLength = jsontest.get("length").getAsString();
-            String email = jsontest.get("email").getAsString();
             User client = userManager.getUser(username);
             if(client != null){
                 out.print("utilisateur " + username + "authentifie !");

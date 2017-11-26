@@ -8,7 +8,7 @@ import java.io.IOException;
 /**
  * Created by Matthieu on 25/11/2017.
  */
-public class MainPageServlet extends HttpServlet {
+public class MainPage extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
