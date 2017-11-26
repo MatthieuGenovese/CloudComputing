@@ -13,9 +13,14 @@
 -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
+<%@ page import="servlet.MainPage" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
+
+
+
+
 <head>
     <style type="text/css">
 
@@ -36,10 +41,7 @@
             color : red;
         }
 
-        alignLeft
-        {
-           padding : 2cm;
-        }
+
 
         div
         {
@@ -49,29 +51,36 @@
         }
 
     </style>
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+       function changeFunc() {
+        var posting = $.post( "http://sacc-liechtensteger-182811.appspot.com/upload", { "username" : "francislebg", "video" : "popou", "length" : "40"} );
+         alert("la requete post a été envoyé");
+       }
+      </script>
 </head>
 
 <body>
-<h1>Bienvenue sur notre site de convertisseur vidéo </h1>
+<h1  id="to" >Bienvenue sur notre site de convertisseur vidéo </h1>
 
 <div>
+
 <h2>Identifiez-vous</h2>
-  <alignLeft>
+
    Username: <input type="text" name"username" value="Jean Michel"><br>
-  </alignLeft>
+
 <h2>Mettez votre video</h2>
-    <alignLeft>
+
         Vidéo: <input type="text" name"video" value="Video1"><br><br>
-    </alignLeft>
-    <alignLeft>
         Taille de la Vidéo: <input type="text" name"taille" value="30"><br><br>
-    </alignLeft>
 
-    <form action = "http://sacc-liechtensteger-182811.appspot.com/upload" method="post" enctype ="multipart/raw">
-        <input type="submit"  value="Convertir"/>
-    </form>
 
-    ${message}
+
+        <input type="submit"  value="Convertir" onclick="changeFunc();"/>
+
+
+
 </div>
 
 
