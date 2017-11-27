@@ -71,7 +71,7 @@ public class Convertisseur implements Runnable{
             }
             else{
                 vid.setNbPart("1");
-                downloadLink = storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + 0, fileGenerator.generateFile(Integer.valueOf(vid.getLength())))+"\n";
+                downloadLink = storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + 0+"convertie", fileGenerator.generateFile(Integer.valueOf(vid.getLength())))+"\n";
             }
             vid.setDownloadLink(downloadLink);
             vid.setSubmitTime(DateTime.now(DateTimeZone.UTC));
