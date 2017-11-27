@@ -25,7 +25,7 @@ public class MainPage extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        req.getRequestDispatcher("createaccount.jsp").forward(req, res);
+        req.getRequestDispatcher("mainpage.jsp").forward(req, res);
     }
 
 
