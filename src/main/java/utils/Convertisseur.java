@@ -57,7 +57,7 @@ public class Convertisseur implements Runnable{
             videoManager.updateVideoUser(vid);
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             vid.setStatus("done");
-            vid.setDownloadLink(storage.writeToStorage(vid.getName()+"convertie",fileGenerator.generateFile(Integer.valueOf(vid.getLength()))));
+            vid.setDownloadLink(storage.writeToStorage(vid.getName()+vid.getOwner()+"convertie",fileGenerator.generateFile(Integer.valueOf(vid.getLength()))));
             vid.setSubmitTime(DateTime.now(DateTimeZone.UTC));
             videoManager.updateVideoUser(vid);
             user.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(vid.getOwner()).size());

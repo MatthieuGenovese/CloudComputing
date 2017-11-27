@@ -45,7 +45,7 @@ public class CronStorage extends HttpServlet {
             }
             else{
                 videoManager.deleteVideoUser(vid.getOwner(),vid.getName());
-                storage.deleteToStorage(vid.getName()+"convertie");
+                storage.deleteToStorage(vid.getName()+vid.getOwner()+"convertie");
             }
         }
         ArrayList<User> listUsers = userManager.getAllUsers();
