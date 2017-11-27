@@ -4,14 +4,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entities.User;
+import org.json.JSONException;
 import stockage.UserManager;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by Matthieu on 26/11/2017.
@@ -56,4 +59,6 @@ public class CreateAcount extends HttpServlet {
             out.println(e.toString());
         }
     }
+
+
 }
