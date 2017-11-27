@@ -1,0 +1,166 @@
+{
+	"id": "9f1bb5f3-c5c1-50a9-4e68-fd2d866e7042",
+	"name": "SACC",
+	"description": "",
+	"order": [
+		"deddf6cb-467f-59ba-3fe8-9f85aadbd28c",
+		"a900022b-40d2-7563-0483-37d5656216a6",
+		"f5332d3f-751e-101d-34b9-bb4a8c7e19fa",
+		"30a5a738-e7e3-38c4-4242-9dff9b37a423",
+		"d11768a4-d7ad-2f24-84de-57eddb7a135d"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1511638933929,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "30a5a738-e7e3-38c4-4242-9dff9b37a423",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://sacc-liechtensteger-182811.appspot.com/convert",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "9f1bb5f3-c5c1-50a9-4e68-fd2d866e7042",
+			"data": [],
+			"dataMode": "raw",
+			"name": "Convertir une vidéo",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1511804498227,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{ \"username\" : \"toto\", \"video\" : \"toto_a_la_plage\" }"
+		},
+		{
+			"id": "a900022b-40d2-7563-0483-37d5656216a6",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://sacc-liechtensteger-182811.appspot.com/createaccount",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511804358843,
+			"name": "Créer un utilisateur",
+			"description": "",
+			"collectionId": "9f1bb5f3-c5c1-50a9-4e68-fd2d866e7042",
+			"responses": [],
+			"rawModeData": "{ \"username\" : \"toto\", \"email\":\"toto@gmail.com\", \"accountlevel\" : \"gold\"}"
+		},
+		{
+			"id": "d11768a4-d7ad-2f24-84de-57eddb7a135d",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "sacc-liechtensteger-182811.appspot.com/status?username=toto",
+			"queryParams": [
+				{
+					"key": "username",
+					"value": "toto",
+					"equals": true,
+					"description": "",
+					"enabled": true
+				}
+			],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511804538264,
+			"name": "Lister les vidéos en cours de traitement",
+			"description": "Check status video",
+			"collectionId": "9f1bb5f3-c5c1-50a9-4e68-fd2d866e7042",
+			"responses": [],
+			"rawModeData": "{ \"username\" : \"toto\"}"
+		},
+		{
+			"id": "deddf6cb-467f-59ba-3fe8-9f85aadbd28c",
+			"headers": "",
+			"headerData": [],
+			"url": "sacc-liechtensteger-182811.appspot.com/",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511711785129,
+			"name": "Interface de création de vidéo",
+			"description": "",
+			"collectionId": "9f1bb5f3-c5c1-50a9-4e68-fd2d866e7042",
+			"responses": []
+		},
+		{
+			"id": "f5332d3f-751e-101d-34b9-bb4a8c7e19fa",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "sacc-liechtensteger-182811.appspot.com/submit",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1511804567210,
+			"name": "Poster une vidéo",
+			"description": "Create a video",
+			"collectionId": "9f1bb5f3-c5c1-50a9-4e68-fd2d866e7042",
+			"responses": [],
+			"rawModeData": "{\"video\" : \"toto_a_la_plage\", \"length\" : \"40\"}"
+		}
+	]
+}
