@@ -73,16 +73,16 @@ contenu du json :
 
 ### Poster une video
 
-Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/upload
+Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/submit
 contenu du json :   
-```{ "username" : "francislebg", "video" : "gfgdfddfdssdfsgsdfsdfshgffghfghfghfffghfghfghfhdfgdfgdgfdfgddgfs", "length" : "40"}```
+```{"video" : "gfgdfddfdssdfsgsdfsdfshgffghfghfghfffghfghfghfhdfgdfgdgfdfgddgfs", "length" : "40"}```
 
 
-### Lister les videos courantes 
+### Convertir une video
 
-Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/status
+Requete POST application/json à l'adresse http://sacc-liechtensteger-182811.appspot.com/convert
 contenu du json :  
-```{ "username" : "francislebg" }```
+```{ "username" : "francislebg", "video" : "videotest" }```
   
   
 
