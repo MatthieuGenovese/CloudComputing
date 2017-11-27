@@ -5,8 +5,10 @@ import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskHandle;
 import com.google.appengine.api.taskqueue.TaskOptions;
 import convertisseur.Convertisseur;
+import entities.QueueStatus;
 import entities.User;
 import entities.Video;
+import stockage.QueueStatusManager;
 import utils.MailManager;
 import stockage.UserManager;
 import stockage.VideoManager;
@@ -24,8 +26,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class QueueWorker extends HttpServlet {
     private UserManager userManager = new UserManager();
-    private VideoManager videoManager = new VideoManager();
     private MailManager mailManager = new MailManager();
+    private QueueStatusManager queueStatusManager = new QueueStatusManager();
+    private QueueStatus status;
     private int videoNumber;
 
     @Override
@@ -33,24 +36,52 @@ public class QueueWorker extends HttpServlet {
         String username = req.getParameter("username");
         String videoName = req.getParameter("id");
         String videoLength = req.getParameter("videolength");
+        status = queueStatusManager.getQueueStatus();
         User u = userManager.getUser(username);
         if (u.getAccountLevel().equalsIgnoreCase("silver")) {
             videoNumber = 3;
         } else {
             videoNumber = 5;
         }
-        Queue silverGoldQueue = QueueFactory.getQueue("silver-gold");
+        //Queue silverGoldQueue = QueueFactory.getQueue("silver");
+        //Queue goldQueue = QueueFactory.getQueue("gold");
+        Queue queue = checkQueue(u,status);
         String payload =  username + "/" + videoName + "/" + videoLength;
-
-        silverGoldQueue.add(TaskOptions.Builder.withMethod(TaskOptions.Method.PULL)
+        queue.add(TaskOptions.Builder.withMethod(TaskOptions.Method.PULL)
                 .payload(payload)
                 .tag(username));
 
         List<TaskHandle> tasks =
-                silverGoldQueue.leaseTasksByTag(300, TimeUnit.SECONDS, videoNumber, username);
-        processTasks(tasks, silverGoldQueue);
+                queue.leaseTasksByTag(300, TimeUnit.SECONDS, videoNumber, username);
+        processTasks(tasks, queue);
 
 
+    }
+
+    private Queue checkQueue(User u, QueueStatus status){
+        Queue resultat;
+        if(u.getAccountLevel().equalsIgnoreCase("gold")){
+            if(status.getNbGold() <= status.getNbSilver()){
+                status.setNbGold(status.getNbGold()+1);
+                resultat = QueueFactory.getQueue("gold");
+            }
+            else{
+                status.setNbSilver(status.getNbSilver()+1);
+                resultat = QueueFactory.getQueue("silver");
+            }
+        }
+        else{
+            if(status.getNbSilver() > 2 * status.getNbGold()){
+                status.setNbGold(status.getNbGold()+1);
+                resultat = QueueFactory.getQueue("gold");
+            }
+            else{
+                status.setNbSilver(status.getNbSilver()+1);
+                resultat = QueueFactory.getQueue("silver");
+            }
+        }
+        queueStatusManager.updateQueueStatus(status);
+        return resultat;
     }
 
     private void processTasks(List<TaskHandle> tasks, Queue q) throws UnsupportedEncodingException {
@@ -69,6 +100,14 @@ public class QueueWorker extends HttpServlet {
             convert.setVid(new Video(array[0], array[1], array[2]));
             convert.setUser(u);
             convert.run();
+            status = queueStatusManager.getQueueStatus();
+            if(q.getQueueName().equalsIgnoreCase("gold")){
+                status.setNbGold(status.getNbGold()-1);
+            }
+            else{
+                status.setNbSilver(status.getNbSilver()-1);
+            }
+            queueStatusManager.updateQueueStatus(status);
         }
     }
 }

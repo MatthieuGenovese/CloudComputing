@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queue-entries>
     <queue>
-        <name>silver-gold</name>
+        <name>silver</name>
+        <mode>pull</mode>
+    </queue>
+    <queue>
+        <name>gold</name>
         <mode>pull</mode>
     </queue>
     <queue>
