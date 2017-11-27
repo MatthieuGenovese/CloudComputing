@@ -1,3 +1,8 @@
+
+********LIEN DU GOOGLE DOC : https://docs.google.com/document/d/16zcPUh9fvl2E7_0yc9SL4OMsJ2Cl5ImVIM63uok0cp0/ *********    
+
+
+
 Author : Liechtensteger, Génovèse, Chennouf, Fezai
 
 ### 1. Lancer le projet
