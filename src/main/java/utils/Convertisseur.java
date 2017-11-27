@@ -53,6 +53,8 @@ public class Convertisseur implements Runnable{
     private void convert(){
         double generatedLong = (Math.random() * (2.5 - 1.1)) + 1.1;
         try {
+            vid.setStatus("processing");
+            videoManager.updateVideoUser(vid);
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             vid.setStatus("done");
             vid.setDownloadLink(storage.writeToStorage(vid.getName()+"convertie",fileGenerator.generateFile(Integer.valueOf(vid.getLength()))));
@@ -60,7 +62,8 @@ public class Convertisseur implements Runnable{
             videoManager.updateVideoUser(vid);
             user.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(vid.getOwner()).size());
             userManager.updateUser(user);
-            mailManager.setContent("La video " + vid.getName() + "est bien convertie ! \n Lien de téléchargement : " + vid.getDownloadLink());
+            mailManager.setContent("La video " + vid.getName() + "est bien convertie ! \n Vous pouvez consulter et téléchargez vos vidéos à partir de ce lien : "
+                    + "http://sacc-liechtensteger-182811.appspot.com/status?username="+ user.getUsername());
             mailManager.setHeader("Conversion terminée !");
             mailManager.setMail(user.getEmail());
             mailManager.setUsername(user.getUsername());

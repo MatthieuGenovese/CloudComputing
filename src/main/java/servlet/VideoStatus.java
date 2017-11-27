@@ -30,32 +30,14 @@ import java.util.Properties;
  */
 public class VideoStatus extends HttpServlet {
     VideoManager videoManager = new VideoManager();
-    CloudStorage storage = new CloudStorage();
     @Override
-    public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         PrintWriter out = resp.getWriter();
-        StringBuffer jb = new StringBuffer();
-        String line = null;
-        try {
-            BufferedReader reader = req.getReader();
-            while ((line = reader.readLine()) != null) {
-                jb.append(line);
-            }
-        } catch (Exception e) { out.println(e.toString());}
-
-        try {
-            JsonParser jparser = new JsonParser();
-            JsonElement obj = jparser.parse(jb.toString());
-            JsonObject jsontest = obj.getAsJsonObject();
-            String username = jsontest.get("username").getAsString();
+            String username = req.getParameter("username");
             ArrayList<VideoUser> list = videoManager.getAllVideosFromUsername(username);
             for(VideoUser vid : list){
-                out.println(vid);
+                out.println(vid+"\n");
             }
-        }
-        catch(Exception e){
-            out.println(e.toString());
-        }
     }
 }
 

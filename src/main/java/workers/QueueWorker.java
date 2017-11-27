@@ -92,7 +92,8 @@ public class QueueWorker extends HttpServlet {
             mailManager.setMail(u.getEmail());
             mailManager.setHeader("Demande de conversion");
             mailManager.setUsername(u.getUsername());
-            mailManager.setContent("Nous avons bien pris en compte la demande de conversion de la video " + vid.getName() + ", vous serez prévenu lorsque elle sera terminée !");
+            mailManager.setContent("Nous avons bien pris en compte la demande de conversion de la video " + vid.getName() + ", vous serez prévenu lorsque elle sera terminée !\n" +
+            "Vous pouvez déjà consulter le statut de vos vidéos à cette adresse : " + "http://sacc-liechtensteger-182811.appspot.com/status?username="+ u.getUsername());
             mailManager.sendEmail();
             q.deleteTask(task);
             Convertisseur convert = new Convertisseur();

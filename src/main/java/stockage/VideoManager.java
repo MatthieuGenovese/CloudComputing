@@ -124,7 +124,7 @@ public class VideoManager {
         while (results.hasNext()) {
             Entity entity = results.next();
             if(entity.getString("username").equalsIgnoreCase(username)
-                    && (entity.getString("status").equalsIgnoreCase("pending")
+                    && (entity.getString("status").equalsIgnoreCase("processing")
                         || entity.getString("status").equalsIgnoreCase("waiting"))){
                 String owner = entity.getString("username");
                 String name = entity.getString("videoname");
