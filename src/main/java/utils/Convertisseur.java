@@ -64,14 +64,14 @@ public class Convertisseur implements Runnable{
                 int rest = length - (nbPart * 70);
                 int i;
                 for(i = 0; i < nbPart; i++) {
-                    downloadLink = downloadLink + storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + i+"convertie", fileGenerator.generateFile(70))+"   \n";
+                    downloadLink = downloadLink + storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + i, fileGenerator.generateFile(70))+"   \n";
                 }
-                downloadLink = downloadLink + storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + i+"convertie", fileGenerator.generateFile(rest))+"   \n";
+                downloadLink = downloadLink + storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + i, fileGenerator.generateFile(rest))+"   \n";
                 vid.setNbPart(String.valueOf(i+1));
             }
             else{
                 vid.setNbPart("1");
-                downloadLink = storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + 0+"convertie", fileGenerator.generateFile(Integer.valueOf(vid.getLength())))+"\n";
+                downloadLink = storage.writeToStorage(vid.getName()+vid.getOwner() + "part0", fileGenerator.generateFile(Integer.valueOf(vid.getLength())))+"\n";
             }
             vid.setDownloadLink(downloadLink);
             vid.setSubmitTime(DateTime.now(DateTimeZone.UTC));
