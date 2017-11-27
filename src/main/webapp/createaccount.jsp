@@ -79,6 +79,11 @@
            xhr.setRequestHeader("Content-type", "application/json");
            var data = JSON.stringify({ "username" : document.getElementById('username').value, "email":document.getElementById('email').value , "accountlevel" : document.getElementById('accountlevel').value});
            xhr.send(data);
+           xhr.onreadystatechange = function() {
+               if (this.readyState == 4 && this.status == 200) {
+                   alert(this.responseText);
+               }
+           };
        }
 
        function postvideo() {
@@ -88,6 +93,11 @@
                   xhr.setRequestHeader("Content-type", "application/json");
                   var data = JSON.stringify({"video" : document.getElementById('video').value, "length" : document.getElementById('length').value});
                   xhr.send(data);
+                  xhr.onreadystatechange = function() {
+                      if (this.readyState == 4 && this.status == 200) {
+                         alert(this.responseText);
+                     }
+                  };
               }
 
         function postconvertvideo() {
@@ -97,6 +107,11 @@
                           xhr.setRequestHeader("Content-type", "application/json");
                           var data = JSON.stringify({ "username" : document.getElementById('usernameconv').value, "video": document.getElementById('videoconv').value});
                           xhr.send(data);
+                          xhr.onreadystatechange = function() {
+                              if (this.readyState == 4 && this.status == 200) {
+                                 alert(this.responseText);
+                              }
+                          };
                       }
 
 
