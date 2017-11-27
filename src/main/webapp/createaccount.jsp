@@ -95,7 +95,7 @@
                           var url = "http://sacc-liechtensteger-182811.appspot.com/convert";
                           xhr.open("POST", url, true);
                           xhr.setRequestHeader("Content-type", "application/json");
-                          var data = JSON.stringify({ "username" : document.getElementById('username').value, "email":document.getElementById('email').value , "accountlevel" : document.getElementById('accountlevel').value});
+                          var data = JSON.stringify({ "username" : document.getElementById('usernameconv').value, "video": document.getElementById('videoconv').value});
                           xhr.send(data);
                       }
 
@@ -114,9 +114,14 @@
    <input type="submit"  value="Inscrire" onclick="postaccount();"/>
 
 <h2>Poster une video</h2>
-        Video: <input type="text" name="enter" class="enter" value="video1" id="video"><br><br>
+        Vidéo: <input type="text" name="enter" class="enter" value="video1" id="video"><br><br>
         Taille de la Vidéo: <input type="text" name="enter" class="enter" value="70" id="length"><br><br>
         <input type="submit"  value="Poster" onclick="postvideo();"/>
+
+<h2>Convertir une video</h2>
+        Username: <input type="text" name="enter" class="enter" value="Jean Michel" id="usernameconv"><br><br>
+        Vidéo: <input type="text" name="enter" class="enter" value="video1" id="videoconv"><br><br>
+        <input type="submit"  value="Convertir" onclick="postconvertvideo();"/>
 
 </div>
 
