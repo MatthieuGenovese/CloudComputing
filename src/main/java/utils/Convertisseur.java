@@ -61,7 +61,7 @@ public class Convertisseur implements Runnable{
             if(Integer.valueOf(vid.getLength())>70){
                 int length = Integer.valueOf(vid.getLength());
                 int nbPart = length / 70;
-                int rest = (length - nbPart) * length;
+                int rest = length - (nbPart * 70);
                 int i;
                 for(i = 0; i < nbPart; i++) {
                     downloadLink = downloadLink + storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + i, fileGenerator.generateFile(70))+"\n";

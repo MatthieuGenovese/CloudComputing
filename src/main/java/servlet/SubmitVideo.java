@@ -1,5 +1,6 @@
 package servlet;
 
+import com.google.api.gax.rpc.DeadlineExceededException;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -41,7 +42,12 @@ public class SubmitVideo extends HttpServlet {
             JsonObject jsontest = obj.getAsJsonObject();
             String videoname = jsontest.get("video").getAsString();
             String videoLength = jsontest.get("length").getAsString();
-            handler.handleUploadRequest(new Video(videoname, videoLength), out);
+            //try {
+                handler.handleUploadRequest(new Video(videoname, videoLength), out);
+            //}
+            //catch (DeadlineExceededException e){
+
+            //}
         } catch (Exception e) {
             e.printStackTrace();
             out.println(e.toString());

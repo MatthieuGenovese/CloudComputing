@@ -1,5 +1,6 @@
 package utils;
 
+import com.google.api.gax.rpc.DeadlineExceededException;
 import entities.User;
 import entities.Video;
 import entities.VideoUser;
@@ -60,20 +61,22 @@ public class HandleConversionRequest {
 
     public boolean handleUploadRequest(Video vid, PrintWriter out){
         if(videoManager.getVideo(vid.getName()) == null) {
-            videoManager.createVideo(vid);
             if(Integer.valueOf(vid.getLength())>70){
                 int length = Integer.valueOf(vid.getLength());
                 int nbPart = length / 70;
-                int rest = (length - nbPart) * length;
+                int rest = length - (nbPart * 70);
                 int i;
                 for(i = 0; i < nbPart; i++) {
                     storage.writeToStorage(vid.getName() + "part" + i, fileGenerator.generateFile(70));
                 }
                 storage.writeToStorage(vid.getName() + "part" + i, fileGenerator.generateFile(rest));
+                vid.setNbPart(String.valueOf(i+1));
             }
             else{
+                vid.setNbPart("1");
                 storage.writeToStorage(vid.getName() + "part" + 0, fileGenerator.generateFile(Integer.valueOf(vid.getLength())));
             }
+            videoManager.createVideo(vid);
             out.println("Video acceptee !");
             return true;
         }
