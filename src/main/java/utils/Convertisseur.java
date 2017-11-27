@@ -57,7 +57,23 @@ public class Convertisseur implements Runnable{
             videoManager.updateVideoUser(vid);
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             vid.setStatus("done");
-            vid.setDownloadLink(storage.writeToStorage(vid.getName()+vid.getOwner()+"convertie",fileGenerator.generateFile(Integer.valueOf(vid.getLength()))));
+            String downloadLink = "";
+            if(Integer.valueOf(vid.getLength())>70){
+                int length = Integer.valueOf(vid.getLength());
+                int nbPart = length / 70;
+                int rest = (length - nbPart) * length;
+                int i;
+                for(i = 0; i < nbPart; i++) {
+                    downloadLink = downloadLink + storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + i, fileGenerator.generateFile(70))+"\n";
+                }
+                downloadLink = downloadLink + storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + i, fileGenerator.generateFile(rest))+"\n";
+                vid.setNbPart(String.valueOf(i+1));
+            }
+            else{
+                vid.setNbPart("1");
+                downloadLink = storage.writeToStorage(vid.getName()+vid.getOwner() + "part" + 0, fileGenerator.generateFile(Integer.valueOf(vid.getLength())))+"\n";
+            }
+            vid.setDownloadLink(downloadLink);
             vid.setSubmitTime(DateTime.now(DateTimeZone.UTC));
             videoManager.updateVideoUser(vid);
             user.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(vid.getOwner()).size());

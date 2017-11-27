@@ -10,6 +10,7 @@ import org.joda.time.format.DateTimeFormatter;
  */
 public class Video {
     private String name;
+    private String nbPart;
     private String length;
 
     public String getLength() {
@@ -29,8 +30,17 @@ public class Video {
     }
 
 
+    public String getNbPart() {
+        return nbPart;
+    }
+
+    public void setNbPart(String nbPart) {
+        this.nbPart = nbPart;
+    }
+
     public Video(String name, String length){
         this.length = length;
         this.name = name;
+        this.nbPart = "N/A";
     }
 }

@@ -61,7 +61,19 @@ public class HandleConversionRequest {
     public boolean handleUploadRequest(Video vid, PrintWriter out){
         if(videoManager.getVideo(vid.getName()) == null) {
             videoManager.createVideo(vid);
-            storage.writeToStorage(vid.getName(), fileGenerator.generateFile(Integer.valueOf(vid.getLength())));
+            if(Integer.valueOf(vid.getLength())>70){
+                int length = Integer.valueOf(vid.getLength());
+                int nbPart = length / 70;
+                int rest = (length - nbPart) * length;
+                int i;
+                for(i = 0; i < nbPart; i++) {
+                    storage.writeToStorage(vid.getName() + "part" + i, fileGenerator.generateFile(70));
+                }
+                storage.writeToStorage(vid.getName() + "part" + i, fileGenerator.generateFile(rest));
+            }
+            else{
+                storage.writeToStorage(vid.getName() + "part" + 0, fileGenerator.generateFile(Integer.valueOf(vid.getLength())));
+            }
             out.println("Video acceptee !");
             return true;
         }

@@ -35,9 +35,11 @@ public class VideoManager {
                 String owner = entity.getString("username");
                 String name = entity.getString("videoname");
                 String videolength = entity.getString("videolength");
+                String nbPart = entity.getString("nbPart");
                 String status = entity.getString("status");
                 DateTime submitTime = DateTime.now(DateTimeZone.UTC);
                 res = new VideoUser(owner, name, videolength);
+                res.setNbPart(nbPart);
                 res.setStatus(status);
                 res.setSubmitTime(submitTime);
             }
@@ -56,7 +58,9 @@ public class VideoManager {
             if(entity.getString("videoname").equalsIgnoreCase(videoname)){
                 String name = entity.getString("videoname");
                 String videolength = entity.getString("videolength");
+                String nbPart = entity.getString("nbPart");
                 res = new Video(name, videolength);
+                res.setNbPart(nbPart);
             }
         }
         return res;
@@ -102,6 +106,7 @@ public class VideoManager {
                 String videolength = entity.getString("videolength");
                 String status = entity.getString("status");
                 String downloadLink = entity.getString("downloadLink");
+                String nbPart = entity.getString("nbPart");
                 String stringSubmitTime = entity.getString("submitTime");
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
                 DateTime submitTime = formatter.parseDateTime(stringSubmitTime);
@@ -109,6 +114,7 @@ public class VideoManager {
                 vid.setDownloadLink(downloadLink);
                 vid.setStatus(status);
                 vid.setSubmitTime(submitTime);
+                vid.setNbPart(nbPart);
                 res.add(vid);
             }
         }
@@ -130,6 +136,7 @@ public class VideoManager {
                 String name = entity.getString("videoname");
                 String videolength = entity.getString("videolength");
                 String downloadLink = entity.getString("downloadLink");
+                String nbPart = entity.getString("nbPart");
                 String status = entity.getString("status");
                 String stringSubmitTime = entity.getString("submitTime");
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
@@ -137,6 +144,7 @@ public class VideoManager {
                 VideoUser vid = new VideoUser(owner, name, videolength);
                 vid.setStatus(status);
                 vid.setSubmitTime(submitTime);
+                vid.setNbPart(nbPart);
                 vid.setDownloadLink(downloadLink);
                 res.add(vid);
             }
@@ -157,6 +165,7 @@ public class VideoManager {
                 String name = entity.getString("videoname");
                 String videolength = entity.getString("videolength");
                 String status = entity.getString("status");
+                String nbPart = entity.getString("nbPart");
                 String downloadLink = entity.getString("downloadLink");
                 String stringSubmitTime = entity.getString("submitTime");
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
@@ -164,6 +173,7 @@ public class VideoManager {
                 VideoUser vid = new VideoUser(owner, name, videolength);
                 vid.setDownloadLink(downloadLink);
                 vid.setStatus(status);
+                vid.setNbPart(nbPart);
                 vid.setSubmitTime(submitTime);
                 res.add(vid);
             }
@@ -185,12 +195,14 @@ public class VideoManager {
                 String videolength = entity.getString("videolength");
                 String status = entity.getString("status");
                 String downloadLink = entity.getString("downloadLink");
+                String nbPart = entity.getString("nbPart");
                 String stringSubmitTime = entity.getString("submitTime");
                 DateTimeFormatter formatter = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
                 DateTime submitTime = formatter.parseDateTime(stringSubmitTime);
                 VideoUser vid = new VideoUser(owner, name, videolength);
                 vid.setDownloadLink(downloadLink);
                 vid.setStatus(status);
+                vid.setNbPart(nbPart);
                 vid.setSubmitTime(submitTime);
                 res.add(vid);
             }
@@ -207,8 +219,10 @@ public class VideoManager {
         while (results.hasNext()) {
             Entity entity = results.next();
             String name = entity.getString("videoname");
+            String nbPart = entity.getString("nbPart");
             String videolength = entity.getString("videolength");
             Video vid = new Video(name, videolength);
+            vid.setNbPart(nbPart);
             res.add(vid);
         }
         return res;
@@ -230,6 +244,7 @@ public class VideoManager {
                 .set("username", vid.getOwner())
                 .set("videoname", vid.getName())
                 .set("videolength", vid.getLength())
+                .set("nbPart", vid.getNbPart())
                 .set("status", vid.getStatus())
                 .set("downloadLink", vid.getDownloadLink())
                 .set("submitTime", vid.getSubmitTime().toString(DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS")))
@@ -244,6 +259,7 @@ public class VideoManager {
                 .set("username", vid.getOwner())
                 .set("videoname", vid.getName())
                 .set("videolength", vid.getLength())
+                .set("nbPart", vid.getNbPart())
                 .set("status", vid.getStatus())
                 .set("downloadLink", vid.getDownloadLink())
                 .set("submitTime", vid.getSubmitTime().toString(DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS")))
@@ -255,6 +271,7 @@ public class VideoManager {
         IncompleteKey key = datastore.newKeyFactory().setKind("video").newKey();
         FullEntity<IncompleteKey> user = Entity.newBuilder(key)
                 .set("videoname", vid.getName())
+                .set("nbPart", vid.getNbPart())
                 .set("videolength", vid.getLength())
                 .build();
         datastore.add(user);

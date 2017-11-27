@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Michael on 24/11/2017.
@@ -45,7 +47,9 @@ public class CronStorage extends HttpServlet {
             }
             else{
                 videoManager.deleteVideoUser(vid.getOwner(),vid.getName());
-                storage.deleteToStorage(vid.getName()+vid.getOwner()+"convertie");
+                for(int i = 0; i < Integer.valueOf(vid.getNbPart()); i++) {
+                    storage.deleteToStorage(vid.getName() + vid.getOwner() +"part"+i+ "convertie");
+                }
             }
         }
         ArrayList<User> listUsers = userManager.getAllUsers();

@@ -18,7 +18,6 @@ public class VideoUser extends Video {
         this.status = "waiting";
         this.downloadLink = "N/A";
         this.submitTime = DateTime.now(DateTimeZone.UTC);
-
     }
 
 

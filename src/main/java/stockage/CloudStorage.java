@@ -6,9 +6,6 @@ package stockage;
 // Imports the Google Cloud client library
 import com.google.cloud.storage.*;
 import com.google.cloud.storage.Storage;
-import entities.Video;
-import entities.VideoUser;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -22,9 +19,7 @@ public class CloudStorage{
     }
 
     public String writeToStorage(String filename, byte[] file){
-        // Instantiates a client
         storage = StorageOptions.getDefaultInstance().getService();
-        // The name of the bucket
         String bucketName = "sacc-liechtensteger-182811.appspot.com";  // "my-new-bucket";
         BlobInfo blobInfo =
                 storage.create(
