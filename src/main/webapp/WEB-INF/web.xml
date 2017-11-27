@@ -24,6 +24,10 @@
     <servlet-class>servlet.MainPage</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>checksubmitedvideos</servlet-name>
+    <servlet-class>servlet.CronSubmitedVideo</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>bronzequeue</servlet-name>
     <servlet-class>workers.BronzeWorker</servlet-class>
   </servlet>
@@ -42,6 +46,10 @@
   <servlet-mapping>
     <servlet-name>submitvideo</servlet-name>
     <url-pattern>/submit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>checksubmitedvideos</servlet-name>
+    <url-pattern>/checksubmitedvideos</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>checkstorage</servlet-name>

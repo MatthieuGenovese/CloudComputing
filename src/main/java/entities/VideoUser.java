@@ -56,6 +56,6 @@ public class VideoUser extends Video {
 
     @Override
     public String toString() {
-        return "Titre : " + super.getName() + "; Durée : " + super.getLength() + "; Status : " + status + "; Download link : " + downloadLink;
+        return "Titre : " + super.getName() + "\nDurée : " + super.getLength() + "\nStatus : " + status + "\nDownload link : " + downloadLink+"\n";
     }
 }

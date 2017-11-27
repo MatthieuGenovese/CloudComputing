@@ -30,16 +30,22 @@ public class HandleConversionRequest {
         if(current == null) {
             Video vid = videoManager.getVideo(videoname);
             if(vid != null) {
-                User u = userManager.getUser(username);
-                current = new VideoUser(username, videoname, vid.getLength());
-                if (checkStatus(u, vid.getLength(), out)) {
-                    u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(u.getUsername()).size() + 1);
-                    videoManager.createVideoUser(current);
-                    userManager.updateUser(u);
-                    out.println("nb video : " + u.getCurrentVideos());
-                    return current;
+                if(videoManager.getVideoUser(username, videoname) == null) {
+                    User u = userManager.getUser(username);
+                    current = new VideoUser(username, videoname, vid.getLength());
+                    if (checkStatus(u, vid.getLength(), out)) {
+                        u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(u.getUsername()).size() + 1);
+                        videoManager.createVideoUser(current);
+                        userManager.updateUser(u);
+                        out.println("nb video : " + u.getCurrentVideos());
+                        return current;
+                    }
+                    return null;
                 }
-                return null;
+                else{
+                    out.println("Video deja en cours de conversion !");
+                    return null;
+                }
             }
             else{
                 out.println("Cette video n existe pas !");

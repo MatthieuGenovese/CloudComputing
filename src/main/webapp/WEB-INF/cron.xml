@@ -5,4 +5,9 @@
         <description>daily summary job</description>
         <schedule>every 1 minutes</schedule>
     </cron>
+    <cron>
+        <url>/checksubmitedvideos</url>
+        <description>daily summary job</description>
+        <schedule>every monday 04:30</schedule>
+    </cron>
 </cronentries>

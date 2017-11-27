@@ -171,6 +171,49 @@ public class VideoManager {
         return res;
     }
 
+    public ArrayList<VideoUser> getAllVideosUserFromVideoname(String videoname){
+        ArrayList<VideoUser> res = new ArrayList<>();
+        EntityQuery query =
+                Query.newEntityQueryBuilder().setKind("videouser")
+                        .build();
+        QueryResults<com.google.cloud.datastore.Entity> results = datastore.run(query);
+        while (results.hasNext()) {
+            Entity entity = results.next();
+            if(entity.getString("videoname").equalsIgnoreCase(videoname)) {
+                String owner = entity.getString("username");
+                String name = entity.getString("videoname");
+                String videolength = entity.getString("videolength");
+                String status = entity.getString("status");
+                String downloadLink = entity.getString("downloadLink");
+                String stringSubmitTime = entity.getString("submitTime");
+                DateTimeFormatter formatter = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+                DateTime submitTime = formatter.parseDateTime(stringSubmitTime);
+                VideoUser vid = new VideoUser(owner, name, videolength);
+                vid.setDownloadLink(downloadLink);
+                vid.setStatus(status);
+                vid.setSubmitTime(submitTime);
+                res.add(vid);
+            }
+        }
+        return res;
+    }
+
+    public ArrayList<Video> getAllVideos(){
+        ArrayList<Video> res = new ArrayList<>();
+        EntityQuery query =
+                Query.newEntityQueryBuilder().setKind("video")
+                        .build();
+        QueryResults<com.google.cloud.datastore.Entity> results = datastore.run(query);
+        while (results.hasNext()) {
+            Entity entity = results.next();
+            String name = entity.getString("videoname");
+            String videolength = entity.getString("videolength");
+            Video vid = new Video(name, videolength);
+            res.add(vid);
+        }
+        return res;
+    }
+
     public void updateVideoUser(VideoUser vid){
         EntityQuery query =
                 Query.newEntityQueryBuilder()

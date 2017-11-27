@@ -36,7 +36,9 @@ public class VideoStatus extends HttpServlet {
             String username = req.getParameter("username");
             ArrayList<VideoUser> list = videoManager.getAllVideosFromUsername(username);
             for(VideoUser vid : list){
+                out.println("----------------------------------------------------\n");
                 out.println(vid+"\n");
+                out.println("----------------------------------------------------\n");
             }
     }
 }

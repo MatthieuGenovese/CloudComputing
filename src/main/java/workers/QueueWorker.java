@@ -42,8 +42,6 @@ public class QueueWorker extends HttpServlet {
         } else {
             videoNumber = 5;
         }
-        //Queue silverGoldQueue = QueueFactory.getQueue("silver");
-        //Queue goldQueue = QueueFactory.getQueue("gold");
         Queue queue = checkQueue(u,status);
         String payload =  username + "/" + videoName + "/" + videoLength;
         queue.add(TaskOptions.Builder.withMethod(TaskOptions.Method.PULL)
