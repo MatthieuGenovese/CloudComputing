@@ -2,6 +2,8 @@ package utils;
 
 import entities.User;
 import entities.Video;
+import entities.VideoUser;
+import stockage.CloudStorage;
 import stockage.UserManager;
 import stockage.VideoManager;
 
@@ -12,29 +14,53 @@ import java.io.PrintWriter;
  */
 public class HandleConversionRequest {
     private VideoManager videoManager;
+    private CloudStorage storage;
     private UserManager userManager;
+    private FileGenerator fileGenerator;
 
     public HandleConversionRequest(){
         videoManager = new VideoManager();
         userManager = new UserManager();
+        fileGenerator = new FileGenerator();
+        storage = new CloudStorage();
     }
 
-    public boolean handleRequest(Video vid, PrintWriter out){
-        if(videoManager.getVideo(vid.getOwner(), vid.getName()) == null) {
-            User u = userManager.getUser(vid.getOwner());
-            if(checkStatus(u, vid.getLength(), out)) {
-                u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(u.getUsername()).size()+1);
-                videoManager.createVideo(vid);
-                userManager.updateUser(u);
-                out.println("nb video : " + u.getCurrentVideos());
-                return true;
+    public VideoUser handleConversionRequest(String username, String videoname, PrintWriter out){
+        VideoUser current = videoManager.getVideoUser(videoname, username);
+        if(current == null) {
+            Video vid = videoManager.getVideo(videoname);
+            if(vid != null) {
+                User u = userManager.getUser(username);
+                current = new VideoUser(username, videoname, vid.getLength());
+                if (checkStatus(u, vid.getLength(), out)) {
+                    u.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(u.getUsername()).size() + 1);
+                    videoManager.createVideoUser(current);
+                    userManager.updateUser(u);
+                    out.println("nb video : " + u.getCurrentVideos());
+                    return current;
+                }
+                return null;
             }
-            return false;
+            else{
+                out.println("Cette video n existe pas !");
+                return null;
+            }
         }
         else {
             out.println("Video deja en cours de conversion");
-            return false;
+            return null;
         }
+    }
+
+    public boolean handleUploadRequest(Video vid, PrintWriter out){
+        if(videoManager.getVideo(vid.getName()) == null) {
+            videoManager.createVideo(vid);
+            storage.writeToStorage(vid.getName(), fileGenerator.generateFile(Integer.valueOf(vid.getLength())));
+            out.println("Video acceptee !");
+            return true;
+        }
+        out.println("Cette video existe deja !");
+        return false;
     }
 
     private boolean checkStatus(User user, String videoLength, PrintWriter out){

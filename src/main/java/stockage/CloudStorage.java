@@ -7,6 +7,8 @@ package stockage;
 import com.google.cloud.storage.*;
 import com.google.cloud.storage.Storage;
 import entities.Video;
+import entities.VideoUser;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,10 +36,10 @@ public class CloudStorage{
         return blobInfo.getMediaLink();
     }
 
-    public void deleteToStorage(Video vid){
+    public void deleteToStorage(String videoname){
         String bucketName = "sacc-liechtensteger-182811.appspot.com";  // "my-new-bucket";
         storage.delete(BlobInfo
-                        .newBuilder(bucketName, vid.getOwner()+vid.getName())
+                        .newBuilder(bucketName, videoname)
                         .setAcl(new ArrayList<>(Arrays.asList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER))))
                         .build().getBlobId());
     }

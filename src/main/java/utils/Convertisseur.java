@@ -1,7 +1,8 @@
-package convertisseur;
+package utils;
 
 import entities.User;
 import entities.Video;
+import entities.VideoUser;
 import utils.MailManager;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -16,6 +17,7 @@ public class Convertisseur implements Runnable{
     private CloudStorage storage;
     private UserManager userManager;
     private VideoManager videoManager;
+    private FileGenerator fileGenerator;
     private MailManager mailManager;
     private User user;
     public User getUser() {
@@ -26,13 +28,13 @@ public class Convertisseur implements Runnable{
         this.user = user;
     }
 
-    private Video vid;
+    private VideoUser vid;
 
     public Video getVid() {
         return vid;
     }
 
-    public void setVid(Video vid) {
+    public void setVid(VideoUser vid) {
         this.vid = vid;
     }
 
@@ -41,6 +43,7 @@ public class Convertisseur implements Runnable{
         userManager = new UserManager();
         videoManager = new VideoManager();
         mailManager = new MailManager();
+        fileGenerator = new FileGenerator();
     }
 
     public void run(){
@@ -48,19 +51,13 @@ public class Convertisseur implements Runnable{
     }
 
     private void convert(){
-            int totalSize = (Integer.valueOf(vid.getLength()) * 1048576) / 4;
-            byte[] out = new byte[totalSize];
-            for (int i = 0; i < totalSize; i++) {
-                out[i] = (byte) 1;
-            }
         double generatedLong = (Math.random() * (2.5 - 1.1)) + 1.1;
-
         try {
             Thread.sleep((int) (generatedLong * Integer.valueOf(vid.getLength()) *  1000));
             vid.setStatus("done");
-            vid.setDownloadLink(storage.writeToStorage(vid.getOwner()+vid.getName(),out));
+            vid.setDownloadLink(storage.writeToStorage(vid.getName()+"convertie",fileGenerator.generateFile(Integer.valueOf(vid.getLength()))));
             vid.setSubmitTime(DateTime.now(DateTimeZone.UTC));
-            videoManager.updateVideo(vid);
+            videoManager.updateVideoUser(vid);
             user.setCurrentVideos(videoManager.getAllPendingsVideosFromUsername(vid.getOwner()).size());
             userManager.updateUser(user);
             mailManager.setContent("La video " + vid.getName() + "est bien convertie ! \n Lien de téléchargement : " + vid.getDownloadLink());

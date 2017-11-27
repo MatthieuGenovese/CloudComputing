@@ -9,15 +9,14 @@ import org.joda.time.format.DateTimeFormatter;
  * Created by Matthieu on 03/11/2017.
  */
 public class Video {
-    private String owner;
+    //private String owner;
     private String name;
     private String length;
-    private String status;
-    private DateTime submitTime;
-    private String downloadLink;
-    //DateTimeFormatter dtf = DateTimeFormat.forPattern("-YYYY-MM-dd-HHmmssSSS");
+    //private String status;
+    //private DateTime submitTime;
+    //private String downloadLink;
 
-    public String getStatus() {
+    /*public String getStatus() {
         return status;
     }
 
@@ -32,7 +31,6 @@ public class Video {
     public void setSubmitTime(DateTime submitTime) {
         this.submitTime = submitTime;
     }
-    //DateTime dt = DateTime.now(DateTimeZone.UTC);
 
     public String getOwner() {
         return owner;
@@ -40,7 +38,7 @@ public class Video {
 
     public void setOwner(String owner) {
         this.owner = owner;
-    }
+    }*/
 
     public String getLength() {
         return length;
@@ -60,23 +58,24 @@ public class Video {
 
     @Override
     public String toString() {
-        return "Titre : " + name + "; Durée : " + length + "; Status : " + status + "; Download link : " + downloadLink;
+        //return "Titre : " + name + "; Durée : " + length + "; Status : " + status + "; Download link : " + downloadLink;
+        return null;
     }
 
-    public String getDownloadLink() {
+    /*public String getDownloadLink() {
         return downloadLink;
     }
 
     public void setDownloadLink(String downloadLink) {
         this.downloadLink = downloadLink;
-    }
+    }*/
 
-    public Video(String owner, String name, String length){
-        this.owner = owner;
+    public Video(String name, String length){
+        //this.owner = owner;
         this.length = length;
         this.name = name;
-        this.status = "pending";
-        this.downloadLink = "N/A";
-        this.submitTime = DateTime.now(DateTimeZone.UTC);
+        //this.status = "pending";
+        //this.downloadLink = "N/A";
+        //this.submitTime = DateTime.now(DateTimeZone.UTC);
     }
 }

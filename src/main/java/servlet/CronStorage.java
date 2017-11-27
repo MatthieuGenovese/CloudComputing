@@ -1,14 +1,9 @@
 package servlet;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.cloud.datastore.*;
 import entities.User;
 import entities.Video;
+import entities.VideoUser;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import stockage.CloudStorage;
 import stockage.UserManager;
 import stockage.VideoManager;
@@ -19,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -35,8 +29,8 @@ public class CronStorage extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         PrintWriter out = resp.getWriter();
-        ArrayList<Video> list = videoManager.getAllVideosDone();
-        for(Video vid : list){
+        ArrayList<VideoUser> list = videoManager.getAllVideosUserDone();
+        for(VideoUser vid : list){
             DateTime vidTime = vid.getSubmitTime();
             String accountLevel = userManager.getUser(vid.getOwner()).getAccountLevel();
             int timeCheck;
@@ -50,8 +44,8 @@ public class CronStorage extends HttpServlet {
                 out.println(vid);
             }
             else{
-                videoManager.deleteVideo(vid.getOwner(),vid.getName());
-                storage.deleteToStorage(vid);
+                videoManager.deleteVideoUser(vid.getOwner(),vid.getName());
+                storage.deleteToStorage(vid.getName()+"convertie");
             }
         }
         ArrayList<User> listUsers = userManager.getAllUsers();

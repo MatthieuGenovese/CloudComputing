@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entities.Video;
+import entities.VideoUser;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import stockage.CloudStorage;
@@ -47,16 +48,9 @@ public class VideoStatus extends HttpServlet {
             JsonElement obj = jparser.parse(jb.toString());
             JsonObject jsontest = obj.getAsJsonObject();
             String username = jsontest.get("username").getAsString();
-            ArrayList<Video> list = videoManager.getAllVideosFromUsername(username);
-            for(Video vid : list){
-                DateTime vidTime = vid.getSubmitTime();
-                if(vidTime.plusMinutes(5).isAfterNow()) {
-                    out.println(vid);
-                }
-                else{
-                    videoManager.deleteVideo(vid.getOwner(),vid.getName());
-                    storage.deleteToStorage(vid);
-                }
+            ArrayList<VideoUser> list = videoManager.getAllVideosFromUsername(username);
+            for(VideoUser vid : list){
+                out.println(vid);
             }
         }
         catch(Exception e){

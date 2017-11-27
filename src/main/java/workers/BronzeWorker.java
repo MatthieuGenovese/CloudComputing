@@ -1,8 +1,8 @@
 package workers;
 
-import convertisseur.Convertisseur;
+import utils.Convertisseur;
 import entities.User;
-import entities.Video;
+import entities.VideoUser;
 import utils.MailManager;
 import stockage.UserManager;
 import stockage.VideoManager;
@@ -32,7 +32,7 @@ public class BronzeWorker extends HttpServlet  {
         mailManager.setContent("Nous avons bien pris en compte la demande de conversion de la video " + videoName + ", vous serez prévenu lorsque elle sera terminée !");
         mailManager.sendEmail();
         Convertisseur convert = new Convertisseur();
-        convert.setVid(new Video(username, videoName, videoLength));
+        convert.setVid(new VideoUser(username, videoName, videoLength));
         convert.setUser(u);
         convert.run();
     }

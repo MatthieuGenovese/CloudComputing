@@ -4,14 +4,13 @@ import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskHandle;
 import com.google.appengine.api.taskqueue.TaskOptions;
-import convertisseur.Convertisseur;
+import utils.Convertisseur;
 import entities.QueueStatus;
 import entities.User;
-import entities.Video;
+import entities.VideoUser;
 import stockage.QueueStatusManager;
 import utils.MailManager;
 import stockage.UserManager;
-import stockage.VideoManager;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -89,7 +88,7 @@ public class QueueWorker extends HttpServlet {
             String payload = new String(task.getPayload());
             String[] array = payload.split("/");
             User u = userManager.getUser(array[0]);
-            Video vid = new Video(array[0], array[1], array[2]);
+            VideoUser vid = new VideoUser(array[0], array[1], array[2]);
             mailManager.setMail(u.getEmail());
             mailManager.setHeader("Demande de conversion");
             mailManager.setUsername(u.getUsername());
@@ -97,7 +96,7 @@ public class QueueWorker extends HttpServlet {
             mailManager.sendEmail();
             q.deleteTask(task);
             Convertisseur convert = new Convertisseur();
-            convert.setVid(new Video(array[0], array[1], array[2]));
+            convert.setVid(vid);
             convert.setUser(u);
             convert.run();
             status = queueStatusManager.getQueueStatus();

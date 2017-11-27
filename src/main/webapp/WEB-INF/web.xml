@@ -8,6 +8,10 @@
     <servlet-class>servlet.CreateAcount</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>submitvideo</servlet-name>
+    <servlet-class>servlet.SubmitVideo</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>mainqueue</servlet-name>
     <servlet-class>workers.QueueWorker</servlet-class>
   </servlet>
@@ -28,12 +32,16 @@
     <servlet-class>servlet.VideoStatus</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>uploadAPI</servlet-name>
-    <servlet-class>servlet.SubmitVideo</servlet-class>
+    <servlet-name>convert</servlet-name>
+    <servlet-class>servlet.ConvertVideo</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>createaccount</servlet-name>
     <url-pattern>/createaccount</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>submitvideo</servlet-name>
+    <url-pattern>/submit</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>checkstorage</servlet-name>
@@ -56,8 +64,8 @@
     <url-pattern>/queuedispatch</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>uploadAPI</servlet-name>
-    <url-pattern>/upload</url-pattern>
+    <servlet-name>convert</servlet-name>
+    <url-pattern>/convert</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcom-file>taskqueues.jsp</welcom-file>
